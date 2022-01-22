@@ -1,0 +1,24 @@
+name: NoobHelper
+author: Knight Hat
+version: 0.1-ALPHA
+api-version: 1.13
+description: Intergrated many helpful features to make game easier
+main: me.knighthat.NoobHelper.NoobHelper
+
+commands:
+  noobhelper:
+    aliases: [nh]
+  anvil:
+    aliases: [caide]
+  cartography:
+    aliases: [banve]
+  grindstone:
+    aliases: [maymai]
+  loom:
+    aliases: [maydet]
+  smithing:
+    aliases: [banren]
+  stonecutter:
+    aliases: [maycatda]
+  workbench:
+    aliases: [banchetao]

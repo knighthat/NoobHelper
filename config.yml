@@ -1,0 +1,47 @@
+version: 0.1
+
+replace_broken_tool: true
+smart_harvest: true
+
+# Permission to use commands: easygame.commmand.[command]
+command_shortcuts:
+  require_permission:
+    anvil: true
+    workbench: true
+    #1.14 and above
+    cartography: true
+    grindstone: true
+    loom: true
+    stonecutter: true
+    #1.16 and above
+    smithing_table: true
+    
+    
+block_break_assist:
+  enabled: true
+  sneaking: true
+  # Permission: easygame.block_break_assist
+  permission: false
+  surivial_mode: true
+  # This argument only be fulfilled only if player's food bar 
+  # and item's durability can keep up
+  max_block: 200
+  food_consumption:
+    enabled: true
+    rate: 0.1
+  apply_damage: true
+  
+fast_leaf_decay:
+  enabled: true
+  # The higher the number, the longer the process.
+  speed: 1    
+  
+trash_bin:
+  enabled: true
+  title: "&4&lWARNING: &eAll items will be deleted!!!"
+  created_message: "You've created a trash bin!"
+  lines:
+    - "&c&l[Trash Bin]"
+    - ""
+    - ""
+    - "&aRight click to use"
