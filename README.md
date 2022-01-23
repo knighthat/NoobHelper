@@ -86,7 +86,7 @@ Too tired with mining block by block? Don’t worry, I’m here to rescue. This 
 **And of course, everything is modifiable in *config.yml***
 
 <details><summary> Example </summary>
-    <img src="https://i.ibb.co/7QKjXTj/Block-Break-Assistant.gif" alt="Block-Break-Assistant" border="0">
+    <img src="https://i.ibb.co/PG9WD43/Block-Break-Assistant.gif" alt="Block-Break-Assistant" border="0">
 </details>
 
 
@@ -98,7 +98,7 @@ Too tired with mining block by block? Don’t worry, I’m here to rescue. This 
 Simply speed up the decaying process. No more waiting
 
 <details><summary> Example </summary>
-    <img src="https://i.ibb.co/KDKcz4n/Faster-Leaf-Decay.gif" alt="Faster-Leaf-Decay" border="0">
+    <img src="https://i.ibb.co/2n99p0c/Faster-Leaf-Decay.gif" alt="Faster-Leaf-Decay" border="0">
 </details>
 
  
@@ -110,7 +110,7 @@ Simply speed up the decaying process. No more waiting
 This one is my favorite; imagine you don’t have to break crops just to realize it’s not fully grown yet. With this plugin, just right-click and you’ll see MAGIC!
 
 <details><summary> Example </summary>
-    <img src="https://i.ibb.co/W38g5hY/Smart-Harvest.gif" alt="Smart-Harvest" border="0">
+    <img src="https://i.ibb.co/b3K1PD3/Smart-Harvest.gif" alt="Smart-Harvest" border="0">
 </details>
 
  
@@ -122,7 +122,8 @@ This one is my favorite; imagine you don’t have to break crops just to realize
 Here, my friend. One of the greatest features in this plugin. No longer go to inventory and search for the tool because yours just broke, my plugin can handle that in a blink of an eye
 
 <details><summary> Example </summary>
-<img src="https://i.ibb.co/N7XWVtK/Tool-Replacement.gif" alt="Tool-Replacement" border="0"></details>
+  <img src="https://i.ibb.co/zJKSb3B/Tool-Replacement.gif" alt="Tool-Replacement" border="0">
+</details>
 
 
 
@@ -133,7 +134,7 @@ Here, my friend. One of the greatest features in this plugin. No longer go to in
 It can destroy everything, seriously! Even the Netherite items
 
 <details><summary> Example </summary>
-  <img src="https://i.ibb.co/LJ3vCJX/Trash-Bin.gif" alt="Trash-Bin" border="0">
+  <img src="https://i.ibb.co/jH38yk9/Trash-Bin.gif" alt="Trash-Bin" border="0">
 </details>
 
 ---
