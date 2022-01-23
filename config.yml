@@ -1,9 +1,9 @@
-version: 0.1
+version: 0.1.1-ALPHA
 
 replace_broken_tool: true
 smart_harvest: true
 
-# Permission to use commands: easygame.commmand.[command]
+# Permission to use commands: noobhelper.commmand.[command]
 command_shortcuts:
   require_permission:
     anvil: true
@@ -20,7 +20,7 @@ command_shortcuts:
 block_break_assist:
   enabled: true
   sneaking: true
-  # Permission: easygame.block_break_assist
+  # Permission: noobhelper.block_break_assist
   permission: false
   surivial_mode: true
   # This argument only be fulfilled only if player's food bar 

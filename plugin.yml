@@ -1,6 +1,6 @@
 name: NoobHelper
 author: Knight Hat
-version: 0.1-ALPHA
+version: 0.1.1-ALPHA
 api-version: 1.13
 description: Intergrated many helpful features to make game easier
 main: me.knighthat.NoobHelper.NoobHelper
