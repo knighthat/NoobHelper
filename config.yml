@@ -1,0 +1,63 @@
+version: 0.2
+
+tool_replacement: true
+smart_harvesting: true
+
+# Permission to use commands: noobhelper.commmand.[command]
+command_shortcuts:
+  require_permission:
+    anvil: true
+    workbench: true
+    #1.14 and above
+    cartography: true
+    grindstone: true
+    loom: true
+    stonecutter: true
+    #1.16 and above
+    smithing: true
+    
+    
+break_assistant:
+  enabled: true
+  requirements: 
+    sneaking: true
+    # Permission: noobhelper.break_assistant
+    permission: false
+    survival_mode: true
+  # This argument only be fulfilled only if player's food bar 
+  # and item's durability can keep up
+  max_block: 200
+  food_consumption:
+    enabled: true
+    rate: 0.1
+  apply_damage: true 
+  
+  
+fast_leaf_decay:
+  enabled: true
+  # The higher the number, the longer the process.
+  slowness: 1    
+  add_effect: true
+
+
+#Permission to use trash bin feature: noobhelper.trash_bin.use  
+trash_bin:
+  enabled: true
+  title: "&4&lWARNING: &eAll items will be deleted!!!"
+  message: "You've created a trash bin!"
+  lines:
+    - "&c&l[Trash Bin]"
+    - ""
+    - ""
+    - "&aRight click to use"
+    
+    
+#
+#
+#         GENERAL MESSAGES
+#
+#
+
+reload: "&aAll files had been reloaded!"
+player_reload: "%player% issued reload command!"
+no_permission: "&cYou don't have permission %perm% to do this!"
