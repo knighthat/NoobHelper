@@ -44,8 +44,11 @@ public class Listener implements org.bukkit.event.Listener
 
 	@EventHandler
 	public void onToolBreak( PlayerItemBreakEvent event ) {
-		if ( isEnabled("tool_replacement") & checkPerm(event.getPlayer(), "tool_replacement") )
-			new ToolReplacement(event);
+
+		Player player = event.getPlayer();
+
+		if ( isEnabled("equipment_replacement") & checkPerm(player, ".eqiuipment_replacement") )
+			new ToolReplacement(event.getPlayer(), event.getBrokenItem());
 	}
 
 	@EventHandler

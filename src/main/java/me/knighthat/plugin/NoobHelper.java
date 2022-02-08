@@ -1,5 +1,8 @@
 package me.knighthat.plugin;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.knighthat.plugin.Commands.GUIs;
@@ -14,6 +17,8 @@ public class NoobHelper extends JavaPlugin
 	public Config config;
 	public BlockData blockdata;
 
+	public List<String> cmds = new ArrayList<>();
+
 	boolean isAfter14 = false;
 	boolean isAfter16 = false;
 
@@ -25,24 +30,43 @@ public class NoobHelper extends JavaPlugin
 		registerFiles();
 
 		registerCommands();
+		registerCommandAliases();
 
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
+	}
+
+	void registerCommandAliases() {
+
+		for ( String cmd : cmds )
+			registerCommandAliasses(cmd);
+	}
+
+	void registerCommandAliasses( String command ) {
+
+		List<String> aliases = config.getStringList("command_shortcuts.aliases." + command);
+
+		getCommand(command).setAliases(aliases);
 	}
 
 	private void registerCommands() {
 		getCommand("noobhelper").setExecutor(new Reload(this));
 
-		getCommand("workbench").setExecutor(new GUIs(this, "workbench"));
-		getCommand("anvil").setExecutor(new GUIs(this, "anvil"));
+		registerCommands("workbench");
+		registerCommands("anvil");
 		if ( !isAfter14 )
 			return;
-		getCommand("cartography").setExecutor(new GUIs(this, "cartography"));
-		getCommand("loom").setExecutor(new GUIs(this, "loom"));
-		getCommand("stonecutter").setExecutor(new GUIs(this, "stonecutter"));
-		getCommand("grindstone").setExecutor(new GUIs(this, "grindstone"));
+		registerCommands("cartography");
+		registerCommands("loom");
+		registerCommands("stonecutter");
+		registerCommands("grindstone");
 		if ( isAfter16 )
-			getCommand("smithing").setExecutor(new GUIs(this, "smithing"));
+			registerCommands("smithing");
 
+	}
+
+	void registerCommands( String command ) {
+		getCommand(command).setExecutor(new GUIs(this, command));
+		cmds.add(command);
 	}
 
 	private void registerFiles() {

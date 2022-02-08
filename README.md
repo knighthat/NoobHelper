@@ -161,7 +161,7 @@ It can destroy everything, seriously! Even the Netherite items
 ### `noobhelper.command.[command]`
 - Required to execute command to open certain GUIs.
 
-### `noobhelper.tool_replacement`
+### `noobhelper.equipment_replacement`
 - Requried to replace tool when it breaks.
 
 ### `noobhelper.smart_harvesting`

@@ -1,20 +1,26 @@
-version: 0.2
+version: 0.3
 
-tool_replacement: true
+equipment_replacement: true
 smart_harvesting: true
 
-# Permission to use commands: noobhelper.commmand.[command]
+# Permission to use commands: noobhelper.commmand.[command]    
 command_shortcuts:
-  require_permission:
-    anvil: true
-    workbench: true
-    #1.14 and above
-    cartography: true
-    grindstone: true
-    loom: true
-    stonecutter: true
-    #1.16 and above
-    smithing: true
+  require_permission: true
+  aliases:
+    anvil:
+      - caide
+    workbench:
+      - banchetao
+    cartography:
+      - banve
+    grindstone:
+      - maymai
+    loom:
+      - maydet
+    stonecutter:
+      - maycat
+    smithing:
+      - banren
     
     
 break_assistant:

@@ -1,38 +1,38 @@
 package me.knighthat.plugin.Events;
 
-import org.bukkit.Material;
-import org.bukkit.event.player.PlayerItemBreakEvent;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class ToolReplacement
 {
-	public ToolReplacement(PlayerItemBreakEvent e) {
 
-		final PlayerInventory pInv = e.getPlayer().getInventory();
-		final Material material = e.getBrokenItem().getType();
+	public ToolReplacement(Player player, ItemStack brokenItem) {
 
-		if ( !isSimilar(e.getBrokenItem(), pInv.getItemInMainHand()) )
-			return;
+		PlayerInventory pInv = player.getInventory();
+		Map<Integer, ItemStack> content = new HashMap<>();
+		int originalSlot = 0;
 
-		if ( !pInv.contains(material, 2) )
-			return;
+		for ( int slot = 0 ; slot < pInv.getSize() ; slot++ )
+			if ( pInv.getItem(slot) != null )
+				content.put(slot, pInv.getItem(slot));
 
-		for ( int slot : pInv.all(material).keySet() )
-			if ( pInv.getHeldItemSlot() != slot ) {
-				swapItems(pInv, slot);
+		for ( int slot : content.keySet() )
+			if ( pInv.getItem(slot).equals(brokenItem) )
+				originalSlot = slot;
+
+		content.remove(originalSlot);
+
+		for ( int slot : content.keySet() )
+			if ( pInv.getItem(slot).getType().equals(brokenItem.getType()) ) {
+				pInv.setItem(originalSlot, pInv.getItem(slot));
+				pInv.clear(slot);
+				player.updateInventory();
 				break;
 			}
-
-	}
-
-	private boolean isSimilar( ItemStack item1, ItemStack item2 ) {
-		return item1.getType().equals(item2.getType());
-	}
-
-	private void swapItems( PlayerInventory pInv, int slot ) {
-		pInv.setItem(pInv.getHeldItemSlot(), pInv.getItem(slot));
-		pInv.clear(slot);
 	}
 
 }

@@ -41,7 +41,7 @@ public class Reload implements CommandExecutor
 	}
 
 	private void sendConsoleMessage( Player player ) {
-		String message = plugin.config.getString("player_reload").replaceAll("%player", player.getName());
+		String message = plugin.config.getString("player_reload").replaceAll("%player%", player.getName());
 		Misc.sendWarning(plugin, message);
 	}
 
