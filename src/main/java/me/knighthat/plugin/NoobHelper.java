@@ -48,7 +48,7 @@ public class NoobHelper extends JavaPlugin
 		getCommand(command).setAliases(aliases);
 	}
 
-	private void registerCommands() {
+	void registerCommands() {
 		getCommand("noobhelper").setExecutor(new Reload(this));
 
 		registerCommands("workbench");
@@ -69,12 +69,12 @@ public class NoobHelper extends JavaPlugin
 		cmds.add(command);
 	}
 
-	private void registerFiles() {
+	void registerFiles() {
 		config = new Config(this);
 		blockdata = new BlockData(this);
 	}
 
-	private void getVersion() {
+	void getVersion() {
 
 		String version = getServer().getVersion();
 		int index = version.lastIndexOf(".");

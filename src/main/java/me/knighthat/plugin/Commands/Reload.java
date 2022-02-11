@@ -26,13 +26,13 @@ public class Reload implements CommandExecutor
 		final boolean isPlayer = sender instanceof Player;
 
 		if ( isPlayer )
-			if ( !Misc.checkPermission((Player) sender, plugin.config, "command.reload") )
+			if ( !Misc.checkPermission((Player) sender, plugin.config, "command.reload", true) )
 				return true;
 
 		plugin.config.reload();
 		plugin.blockdata.reload();
 
-		sender.sendMessage(plugin.config.getString("reload"));
+		sender.sendMessage(plugin.config.getString("reload", true));
 
 		if ( isPlayer )
 			sendConsoleMessage((Player) sender);
@@ -41,7 +41,7 @@ public class Reload implements CommandExecutor
 	}
 
 	private void sendConsoleMessage( Player player ) {
-		String message = plugin.config.getString("player_reload").replaceAll("%player%", player.getName());
+		String message = plugin.config.getString("player_reload", false).replaceAll("%player%", player.getName());
 		Misc.sendWarning(plugin, message);
 	}
 

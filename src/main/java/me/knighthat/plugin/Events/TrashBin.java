@@ -36,7 +36,7 @@ public class TrashBin
 			e.setLine(line, config.getStringList("trash_bin.lines").get(line));
 
 		addData(e.getBlock().getLocation());
-		player.sendMessage(config.getString("trash_bin.message"));
+		player.sendMessage(config.getString("trash_bin.message", true));
 	}
 
 	public TrashBin(NoobHelper plugin, BlockBreakEvent e) {
@@ -54,14 +54,17 @@ public class TrashBin
 				e.setCancelled(true);
 	}
 
-	public TrashBin(NoobHelper plugin, Player player) {
+	public TrashBin(NoobHelper plugin, Player player, Location signLocation) {
 
 		register(plugin, player);
+
+		if ( !blockData.contains(getID(signLocation)) )
+			return;
 
 		if ( !checkPermission("use") )
 			return;
 
-		final String title = config.getString("trash_bin.title");
+		final String title = config.getString("trash_bin.title", false);
 
 		Inventory gui = Bukkit.createInventory(player, InventoryType.CHEST, title);
 
@@ -100,6 +103,6 @@ public class TrashBin
 	}
 
 	Boolean checkPermission( String permission ) {
-		return Misc.checkPermission(player, config, path + permission);
+		return Misc.checkPermission(player, config, path + permission, true);
 	}
 }

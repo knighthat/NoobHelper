@@ -10,29 +10,35 @@ import org.bukkit.inventory.PlayerInventory;
 public class ToolReplacement
 {
 
+	PlayerInventory pInv;
+	int originalSlot;
+
 	public ToolReplacement(Player player, ItemStack brokenItem) {
 
-		PlayerInventory pInv = player.getInventory();
-		Map<Integer, ItemStack> content = new HashMap<>();
-		int originalSlot = 0;
+		pInv = player.getInventory();
+		Map<Integer, ItemStack> contents = getContents(brokenItem);
 
-		for ( int slot = 0 ; slot < pInv.getSize() ; slot++ )
-			if ( pInv.getItem(slot) != null )
-				content.put(slot, pInv.getItem(slot));
-
-		for ( int slot : content.keySet() )
-			if ( pInv.getItem(slot).equals(brokenItem) )
-				originalSlot = slot;
-
-		content.remove(originalSlot);
-
-		for ( int slot : content.keySet() )
+		for ( int slot : contents.keySet() )
 			if ( pInv.getItem(slot).getType().equals(brokenItem.getType()) ) {
 				pInv.setItem(originalSlot, pInv.getItem(slot));
 				pInv.clear(slot);
 				player.updateInventory();
 				break;
 			}
+	}
+
+	Map<Integer, ItemStack> getContents( ItemStack brokenItem ) {
+
+		Map<Integer, ItemStack> contents = new HashMap<>();
+
+		for ( int slot = 0 ; slot < pInv.getSize() ; slot++ )
+			if ( pInv.getItem(slot) != null )
+				if ( pInv.getItem(slot).equals(brokenItem) ) {
+					originalSlot = slot;
+				} else
+					contents.put(slot, pInv.getItem(slot));
+
+		return contents;
 	}
 
 }

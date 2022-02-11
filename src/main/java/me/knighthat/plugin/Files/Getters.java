@@ -14,8 +14,17 @@ public abstract class Getters extends Default
 		super(plugin);
 	}
 
+	String getPrefix() {
+		return get().getString("prefix");
+	}
+
+	public String getString( String path, Boolean addPrefix ) {
+		return Misc.addColor(addPrefix ? getPrefix().concat(getString(path)) : getString(path));
+	}
+
+	@Deprecated
 	public String getString( String path ) {
-		return Misc.addColor(get().getString(path));
+		return get().getString(path);
 	}
 
 	public Integer getInt( String path ) {

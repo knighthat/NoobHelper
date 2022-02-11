@@ -30,7 +30,7 @@ public class GUIs implements CommandExecutor
 
 		final Player player = (Player) sender;
 
-		if ( !Misc.checkPermission(player, plugin.config, "command." + type) )
+		if ( !Misc.checkPermission(player, plugin.config, "command." + type, true) )
 			return true;
 
 		InventoryType invType = InventoryType.valueOf(type.toUpperCase());

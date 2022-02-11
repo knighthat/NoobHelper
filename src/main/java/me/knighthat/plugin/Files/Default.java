@@ -13,22 +13,21 @@ public abstract class Default
 
 	NoobHelper plugin;
 
-	private String fileName;
-	private File file;
-	private FileConfiguration config;
+	String fileName;
+	File file;
+	FileConfiguration config;
 
 	public Default(NoobHelper plugin) {
 		this.plugin = plugin;
 	}
 
-	protected void setFile( String fileName ) {
+	void setFile( String fileName ) {
 		this.fileName = fileName;
 	}
 
-	protected void startup() {
+	void startup() {
 		file = new File(plugin.getDataFolder(), fileName);
-		if ( !file.exists() )
-			plugin.saveResource(fileName, false);
+		checkFile();
 		reload();
 	}
 
@@ -41,6 +40,7 @@ public abstract class Default
 	public void save() {
 		try {
 			config.save(file);
+			reload();
 		} catch ( IOException e ) {
 			e.printStackTrace();
 		}
@@ -49,7 +49,13 @@ public abstract class Default
 	public void reload() {
 		if ( file == null )
 			startup();
+		checkFile();
 		config = YamlConfiguration.loadConfiguration(file);
+	}
+
+	void checkFile() {
+		if ( !file.exists() )
+			plugin.saveResource(fileName, false);
 	}
 
 }

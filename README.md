@@ -188,10 +188,14 @@ It can destroy everything, seriously! Even the Netherite items
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.3
+version: 0.4
+
+prefix: "&7[&aNoobHelper&7]"
 
 equipment_replacement: true
-smart_harvesting: true
+smart_harvesting:
+  enabled: true
+  sound: true
 
 # Permission to use commands: noobhelper.commmand.[command]    
 command_shortcuts:
@@ -236,7 +240,9 @@ fast_leaf_decay:
   add_effect: true
 
 
-#Permission to use trash bin feature: noobhelper.trash_bin.use  
+# Permission to use trash bin feature: noobhelper.trash_bin.use
+# Permission to place sign: noobhelper.trash_bin.place
+# Permission to destroy sign: noobhelper.trash_bin.remove  
 trash_bin:
   enabled: true
   title: "&4&lWARNING: &eAll items will be deleted!!!"

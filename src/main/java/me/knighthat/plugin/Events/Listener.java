@@ -59,14 +59,14 @@ public class Listener implements org.bukkit.event.Listener
 
 		BlockData blockData = event.getClickedBlock().getBlockData();
 
-		if ( isEnabled("smart_harvesting") & blockData instanceof Ageable )
+		if ( isEnabled("smart_harvesting.enabled") & blockData instanceof Ageable )
 			if ( checkPerm(event.getPlayer(), "smart_harvesting") ) {
-				new SmartHarvesting(event);
+				new SmartHarvesting(event, isEnabled("smart_harvesting.sound"));
 				return;
 			}
 
 		if ( plugin.config.getBoolean("trash_bin.enabled") & blockData instanceof Sign ) {
-			new TrashBin(plugin, event.getPlayer());
+			new TrashBin(plugin, event.getPlayer(), event.getClickedBlock().getLocation());
 			return;
 		}
 

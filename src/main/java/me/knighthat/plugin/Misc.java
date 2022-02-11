@@ -32,19 +32,24 @@ public class Misc
 	}
 
 	public static boolean checkPermission( Player player, Config config, String permission ) {
+		return checkPermission(player, config, permission, false);
+	}
+
+	public static boolean checkPermission( Player player, Config config, String permission, boolean sendNoPermMsg ) {
 
 		if ( !permission.startsWith("noobhelper.") )
 			permission = "noobhelper." + permission;
 
 		if ( !player.hasPermission(permission) ) {
-			player.sendMessage(noPerm(config, permission));
+			if ( sendNoPermMsg )
+				player.sendMessage(noPerm(config, permission));
 			return false;
 		}
 		return true;
 	}
 
 	private static String noPerm( Config config, String permission ) {
-		return config.getString("no_permission").replace("%perm%", permission);
+		return config.getString("no_permission", true).replace("%perm%", permission);
 	}
 
 }
