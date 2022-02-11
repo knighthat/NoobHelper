@@ -22,8 +22,8 @@ public class Config extends Getters
 
 	Boolean checkVersion() {
 
-		String currentVersion = get().getString("version");
-		String pluginVersion = plugin.getDescription().getVersion();
+		final String currentVersion = get().getString("version");
+		final String pluginVersion = plugin.getDescription().getVersion();
 
 		return currentVersion.equals(pluginVersion);
 	}
@@ -37,7 +37,7 @@ public class Config extends Getters
 
 	File generateFileName() {
 
-		String copies = ".old" + (fileNumber == 0 ? "" : " (" + fileNumber + ")");
+		String copies = (fileNumber == 0 ? "" : " (" + fileNumber + ") ").concat(".old");
 
 		File newFile = new File(plugin.getDataFolder(), fileName + copies);
 

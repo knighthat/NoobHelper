@@ -31,7 +31,8 @@ public class FastLeafDecay implements Storage
 
 					Block leaf = leaves.get(count);
 
-					playEffect(leaf);
+					if ( plugin.config.getBoolean("fast_leaf_decay.play_effect") )
+						playEffect(leaf);
 
 					decomposition(leaf);
 

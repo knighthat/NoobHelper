@@ -132,5 +132,4 @@ public class Listener implements org.bukkit.event.Listener
 		for ( int line = 0 ; line < event.getLines().length ; line++ )
 			event.setLine(line, Misc.addColor(event.getLine(line)));
 	}
-
 }

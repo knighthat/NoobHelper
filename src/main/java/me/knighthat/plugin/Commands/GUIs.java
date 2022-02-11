@@ -34,8 +34,8 @@ public class GUIs implements CommandExecutor
 			return true;
 
 		InventoryType invType = InventoryType.valueOf(type.toUpperCase());
-		Inventory inv = plugin.getServer().createInventory(player, invType);
-		player.openInventory(inv);
+		Inventory inventory = plugin.getServer().createInventory(player, invType);
+		player.openInventory(inventory);
 
 		return true;
 	}
