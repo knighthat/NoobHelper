@@ -38,45 +38,6 @@
 </p>
 
 
-
-## GUI Shortcuts:
-
-You don’t have to place these blocks down in order to get access to these GUIs anymore. But still, permission `noobhelper.command.[command]` is required. 
-
-**Can be turned off in *config.yml***
-
-<details><summary> Open Workbench </summary>
-   <img src="https://i.ibb.co/xMGkJMW/Workbench-Command.gif" alt="Workbench-Command" border="0">
-</details>
-
-<details><summary> Open Anvil </summary>
-    <img src="https://i.ibb.co/R3pRmQq/Anvil-Command.gif" alt="Anvil-Command" border="0">
-</details>
-
-<details><summary> Open Cartography </summary>
-    <img src="https://i.ibb.co/PNTX8Mn/Cartography-Command.gif" alt="Cartography-Command" border="0">
-</details>
-
-<details><summary> Open Grindstone </summary>
-    <img src="https://i.ibb.co/5MWM431/Grindstone-Command.gif" alt="Grindstone-Command" border="0">
-</details>
-
-<details><summary> Open Loom </summary>
-    <img src="https://i.ibb.co/mX9hpkH/Loom-Command.gif" alt="Loom-Command" border="0">
-</details>
-
-<details><summary> Open Smiting </summary>
-    <img src="https://i.ibb.co/kQd6DKR/Smithing-Table-Command.gif" alt="Smithing-Table-Command" border="0">
-</details>
-
-<details><summary> Open Stonecutter </summary>
-    <img src="https://i.ibb.co/nDd6wfp/Stonecutter-Command.gif" alt="Stonecutter-Command" border="0">
-</details>
-
-
-
-
-
 ## Block Break Assistant:
 
 Too tired with mining block by block? Don’t worry, I’m here to rescue. This feature allows you to break many blocks that have the same properties at once.
@@ -188,34 +149,14 @@ It can destroy everything, seriously! Even the Netherite items
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.4.1
+version: 0.4.2
 
 prefix: "&7[&aNoobHelper&7]"
 
 equipment_replacement: true
 smart_harvesting:
   enabled: true
-  sound: true
-
-# Permission to use commands: noobhelper.commmand.[command]    
-command_shortcuts:
-  require_permission: true
-  aliases:
-    anvil:
-      - caide
-    workbench:
-      - banchetao
-    cartography:
-      - banve
-    grindstone:
-      - maymai
-    loom:
-      - maydet
-    stonecutter:
-      - maycat
-    smithing:
-      - banren
-    
+  sound: true    
     
 break_assistant:
   enabled: true

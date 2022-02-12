@@ -1,23 +1,9 @@
 name: NoobHelper
 author: KnightHat
 api-version: 1.13
-version: 0.4.1
+version: 0.4.2
 main: me.knighthat.plugin.NoobHelper
 
 commands:
   noobhelper:
-    aliases: [eg]
-  workbench:
-    aliases: [banchetao]
-  anvil:
-    aliases: [caide]
-  cartography:
-    aliases: [banve]
-  loom:
-    aliases: [maydet]
-  grindstone:
-    aliases: [maymai]
-  stonecutter:
-    aliases: [maycat]
-  smithing:
-    aliases: [banren]
+    aliases: [nh]

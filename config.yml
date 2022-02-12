@@ -1,31 +1,11 @@
-version: 0.4.1
+version: 0.4.2
 
 prefix: "&7[&aNoobHelper&7]"
 
 equipment_replacement: true
 smart_harvesting:
   enabled: true
-  sound: true
-
-# Permission to use commands: noobhelper.commmand.[command]    
-command_shortcuts:
-  require_permission: true
-  aliases:
-    anvil:
-      - caide
-    workbench:
-      - banchetao
-    cartography:
-      - banve
-    grindstone:
-      - maymai
-    loom:
-      - maydet
-    stonecutter:
-      - maycat
-    smithing:
-      - banren
-    
+  sound: true    
     
 break_assistant:
   enabled: true
