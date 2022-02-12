@@ -149,7 +149,7 @@ It can destroy everything, seriously! Even the Netherite items
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.4.2
+version: 0.4.3
 
 prefix: "&7[&aNoobHelper&7]"
 

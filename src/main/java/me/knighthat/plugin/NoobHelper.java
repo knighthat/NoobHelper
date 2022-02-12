@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.knighthat.plugin.Commands.Reload;
 import me.knighthat.plugin.Events.Listener;
 import me.knighthat.plugin.Files.BlockData;
 import me.knighthat.plugin.Files.Config;
@@ -27,7 +28,13 @@ public class NoobHelper extends JavaPlugin
 
 		registerFiles();
 
+		registerCommands();
+
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
+	}
+
+	void registerCommands() {
+		getCommand("noobhelper").setExecutor(new Reload(this));
 	}
 
 	void registerFiles() {
