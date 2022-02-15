@@ -7,14 +7,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.knighthat.plugin.Commands.Reload;
 import me.knighthat.plugin.Events.Listener;
-import me.knighthat.plugin.Files.BlockData;
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.BlockDataFile;
+import me.knighthat.plugin.Files.ConfigFile;
 
 public class NoobHelper extends JavaPlugin
 {
 
-	public Config config;
-	public BlockData blockdata;
+	public ConfigFile config;
+	public BlockDataFile blockdata;
 
 	public List<String> cmds = new ArrayList<>();
 
@@ -34,12 +34,14 @@ public class NoobHelper extends JavaPlugin
 	}
 
 	void registerCommands() {
+
 		getCommand("noobhelper").setExecutor(new Reload(this));
 	}
 
 	void registerFiles() {
-		config = new Config(this);
-		blockdata = new BlockData(this);
+
+		config = new ConfigFile(this);
+		blockdata = new BlockDataFile(this);
 	}
 
 	void getVersion() {

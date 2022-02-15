@@ -11,13 +11,18 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.Files.ConfigFile;
 
 public class FastLeafDecay implements Storage
 {
 
+	ConfigFile config;
+
 	public FastLeafDecay(NoobHelper plugin, LeavesDecayEvent e) {
 
-		long period = plugin.config.getInt("fast_leaf_decay.slowness");
+		this.config = plugin.config;
+
+		long period = config.get().getInt("fast_leaf_decay.slowness");
 
 		new BukkitRunnable() {
 
@@ -31,7 +36,7 @@ public class FastLeafDecay implements Storage
 
 					Block leaf = leaves.get(count);
 
-					if ( plugin.config.getBoolean("fast_leaf_decay.play_effect") )
+					if ( config.get().getBoolean("fast_leaf_decay.play_effect") )
 						playEffect(leaf);
 
 					decomposition(leaf);
@@ -62,5 +67,4 @@ public class FastLeafDecay implements Storage
 		loc.getWorld().playSound(loc, Sound.BLOCK_GRASS_BREAK, 29, 1);
 
 	}
-
 }

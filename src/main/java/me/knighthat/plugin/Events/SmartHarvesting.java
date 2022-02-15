@@ -3,14 +3,12 @@ package me.knighthat.plugin.Events;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.Ageable;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 public class SmartHarvesting
 {
 
-	public SmartHarvesting(PlayerInteractEvent e, boolean playSound) {
+	public SmartHarvesting(final Block block, boolean playSound) {
 
-		final Block block = e.getClickedBlock();
 		final Ageable crop = (Ageable) block.getBlockData();
 
 		if ( crop.getAge() != crop.getMaximumAge() )

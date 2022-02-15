@@ -64,5 +64,4 @@ public interface Storage
 		map.get(key).add(key);
 		return map;
 	}
-
 }

@@ -38,7 +38,7 @@
 </p>
 
 
-## Block Break Assistant:
+## Block Break Assistant
 
 Too tired with mining block by block? Don’t worry, I’m here to rescue. This feature allows you to break many blocks that have the same properties at once.
 
@@ -52,7 +52,7 @@ Too tired with mining block by block? Don’t worry, I’m here to rescue. This 
 
 
 
-## Fast Leaf Decay:
+## Fast Leaf Decay
 
 Simply speed up the decaying process. No more waiting
 
@@ -64,7 +64,7 @@ Simply speed up the decaying process. No more waiting
 
 
 
-## Smart Harvest:
+## Smart Harvest
 
 This one is my favorite; imagine you don’t have to break crops just to realize it’s not fully grown yet. With this plugin, just right-click and you’ll see MAGIC!
 
@@ -76,7 +76,7 @@ This one is my favorite; imagine you don’t have to break crops just to realize
 
 
 
-## Tool Replacement:
+## Tool Replacement
 
 Here, my friend. One of the greatest features in this plugin. No longer go to inventory and search for the tool because yours just broke, my plugin can handle that in a blink of an eye
 
@@ -88,12 +88,24 @@ Here, my friend. One of the greatest features in this plugin. No longer go to in
 
 
 
-## Trash Bin:
+## Trash Bin
 
 It can destroy everything, seriously! Even the Netherite items
 
 <details><summary> Example </summary>
   <img src="https://i.ibb.co/jH38yk9/Trash-Bin.gif" alt="Trash-Bin" border="0">
+</details>
+
+
+
+
+
+## Death Chest
+
+Saves player's inventory when he/she dies. Inventory once created can only be retreived by the owner.
+
+<details><summary> Example </summary>
+  <img src="https://i.ibb.co/WPwSmL7/Death-Chest.gif" alt="Death-Chest" border="0">
 </details>
 
 ---

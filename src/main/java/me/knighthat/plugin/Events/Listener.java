@@ -2,9 +2,13 @@ package me.knighthat.plugin.Events;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.Chest;
 import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Leaves;
@@ -15,9 +19,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.Misc;
@@ -34,8 +40,8 @@ public class Listener implements org.bukkit.event.Listener
 		this.plugin = plugin;
 	}
 
-	private boolean isEnabled( String path ) {
-		return plugin.config.getBoolean(path);
+	public Boolean isEnabled( String path ) {
+		return plugin.config.get().getBoolean(path);
 	}
 
 	boolean checkPerm( Player player, String permission ) {
@@ -57,16 +63,24 @@ public class Listener implements org.bukkit.event.Listener
 		if ( !EquipmentSlot.HAND.equals(event.getHand()) | !Action.RIGHT_CLICK_BLOCK.equals(event.getAction()) )
 			return;
 
-		BlockData blockData = event.getClickedBlock().getBlockData();
+		Player player = event.getPlayer();
+		Block block = event.getClickedBlock();
+		BlockData blockData = block.getBlockData();
+		BlockState blockState = block.getState();
 
 		if ( isEnabled("smart_harvesting.enabled") & blockData instanceof Ageable )
-			if ( checkPerm(event.getPlayer(), "smart_harvesting") ) {
-				new SmartHarvesting(event, isEnabled("smart_harvesting.sound"));
+			if ( checkPerm(player, "smart_harvesting") ) {
+				new SmartHarvesting(event.getClickedBlock(), isEnabled("smart_harvesting.sound"));
 				return;
 			}
 
-		if ( plugin.config.getBoolean("trash_bin.enabled") & blockData instanceof Sign ) {
-			new TrashBin(plugin, event.getPlayer(), event.getClickedBlock().getLocation());
+		if ( isEnabled("trash_bin.enabled") & blockData instanceof Sign ) {
+			new TrashBin(plugin, event);
+			return;
+		}
+
+		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) {
+			new DeathChest(plugin, event);
 			return;
 		}
 
@@ -133,4 +147,17 @@ public class Listener implements org.bukkit.event.Listener
 			event.setLine(line, Misc.addColor(event.getLine(line)));
 	}
 
+	@EventHandler
+	public void onPlayerDeath( PlayerDeathEvent event ) {
+		final Player player = event.getEntity();
+		if ( !isEnabled("death_chest.enabled") | !checkPerm(player, "death_chest") )
+			return;
+		new DeathChest(plugin, player);
+
+		List<ItemStack> drops = event.getDrops();
+		ListIterator<ItemStack> contents = drops.listIterator();
+		while ( contents.hasNext() )
+			if ( contents.next() != null )
+				contents.remove();
+	}
 }

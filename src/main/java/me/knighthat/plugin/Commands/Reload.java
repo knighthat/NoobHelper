@@ -20,10 +20,10 @@ public class Reload implements CommandExecutor
 	@Override
 	public boolean onCommand( CommandSender sender, Command command, String label, String[] args ) {
 
+		final boolean isPlayer = sender instanceof Player;
+
 		if ( !args[0].equalsIgnoreCase("reload") )
 			return true;
-
-		final boolean isPlayer = sender instanceof Player;
 
 		if ( isPlayer )
 			if ( !Misc.checkPermission((Player) sender, plugin.config, "command.reload", true) )
@@ -44,5 +44,4 @@ public class Reload implements CommandExecutor
 		String message = plugin.config.getString("player_reload", false).replaceAll("%player%", player.getName());
 		Misc.sendWarning(plugin, message);
 	}
-
 }

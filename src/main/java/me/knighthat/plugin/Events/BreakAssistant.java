@@ -11,32 +11,27 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import me.knighthat.plugin.Misc;
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.ConfigFile;
 
-public class BreakAssistant implements Storage
+public class BreakAssistant extends BreakAssistantStorage
 {
-	Config config;
 
-	Player player;
-
-	final String path = "break_assistant.";
-
-	public BreakAssistant(Config config, BlockBreakEvent e) {
+	public BreakAssistant(ConfigFile config, BlockBreakEvent e) {
 
 		this.config = config;
 		this.player = e.getPlayer();
 
 		if ( checkTool() & checkRequirements() )
-			assist(getAffiliation(e.getBlock(), config.getInt(path + "max_block")));
+			assist(getAffiliation(e.getBlock(), config.get().getInt(path + "max_block")));
 
 	}
 
-	private void assist( List<Block> blocks ) {
+	void assist( List<Block> blocks ) {
 
-		boolean addHungry = config.getBoolean(path + "food_consumption.enabled"),
-				addDamage = config.getBoolean(path + "apply_damage");
+		boolean addHungry = isEnabled(path + "food_consumption.enabled"), addDamage = isEnabled(path + "apply_damage");
 
 		for ( int i = 0 ; i < blocks.size() ; i++ ) {
 			if ( addHungry & !addHungry(i) )
@@ -48,8 +43,21 @@ public class BreakAssistant implements Storage
 			blocks.get(i).breakNaturally(player.getInventory().getItemInMainHand());
 		}
 	}
+}
 
-	private boolean checkTool() {
+abstract class BreakAssistantStorage implements Storage
+{
+
+	Player player;
+	ConfigFile config;
+
+	final String path = "break_assistant.";
+
+	public Boolean isEnabled( @NotNull String path ) {
+		return config.get().getBoolean(path);
+	}
+
+	boolean checkTool() {
 
 		String itemName = player.getInventory().getItemInMainHand().getType().name();
 		if ( itemName.endsWith("_SHOVEL") | itemName.endsWith("_PICKAXE") | itemName.endsWith("_AXE") )
@@ -57,25 +65,26 @@ public class BreakAssistant implements Storage
 		return false;
 	}
 
-	private boolean checkRequirements() {
+	boolean isRequired( @NotNull String path ) {
+		return isEnabled(this.path + "requirements." + path);
+	}
 
-		final String path = this.path + "requirements.";
+	boolean checkRequirements() {
 
-		boolean rSneaking = config.getBoolean(path + "sneaking"), rPermission = config.getBoolean(path + "permission"),
-				rGameMode = config.getBoolean(path + "survival_mode");
-
-		if ( rSneaking & !player.isSneaking() )
+		if ( isRequired("sneaking") & !player.isSneaking() )
 			return false;
-		if ( rPermission )
+
+		if ( isRequired("permission") )
 			if ( !Misc.checkPermission(player, config, this.path.replace(".", ""), false) )
 				return false;
-		if ( rGameMode & !player.getGameMode().equals(GameMode.SURVIVAL) )
+
+		if ( isRequired("survival_mode") & !player.getGameMode().equals(GameMode.SURVIVAL) )
 			return false;
 
 		return true;
 	}
 
-	private boolean addDamage() {
+	boolean addDamage() {
 
 		ItemStack item = player.getInventory().getItemInMainHand();
 		Damageable dmg = (Damageable) item.getItemMeta();
@@ -93,12 +102,12 @@ public class BreakAssistant implements Storage
 		return true;
 	}
 
-	private boolean addHungry( int broke ) {
+	boolean addHungry( int broke ) {
 
 		if ( player.getFoodLevel() <= 0 )
 			return false;
 
-		double rate = config.getDouble("break_assistant.food_consumption.rate");
+		double rate = config.get().getDouble(this.path + "food_consumption.rate");
 		int required = (int) (rate >= 1 ? rate : 1 / rate);
 
 		if ( broke % required == 0 )
@@ -106,5 +115,4 @@ public class BreakAssistant implements Storage
 
 		return true;
 	}
-
 }

@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.ConfigFile;
 import net.md_5.bungee.api.ChatColor;
 
 public class Misc
@@ -31,25 +31,24 @@ public class Misc
 		plugin.getLogger().log(Level.WARNING, warning);
 	}
 
-	public static boolean checkPermission( Player player, Config config, String permission ) {
+	public static boolean checkPermission( Player player, ConfigFile config, String permission ) {
 		return checkPermission(player, config, permission, false);
 	}
 
-	public static boolean checkPermission( Player player, Config config, String permission, boolean sendNoPermMsg ) {
+	public static boolean checkPermission( Player player, ConfigFile config, String permission,
+			boolean sendNoPermMsg ) {
 
 		if ( !permission.startsWith("noobhelper.") )
 			permission = "noobhelper." + permission;
 
+		final String message = config.getString("no_permission", true).replace("%perm%", permission);
+
 		if ( !player.hasPermission(permission) ) {
 			if ( sendNoPermMsg )
-				player.sendMessage(noPerm(config, permission));
+				player.sendMessage(message);
 			return false;
 		}
 		return true;
-	}
-
-	private static String noPerm( Config config, String permission ) {
-		return config.getString("no_permission", true).replace("%perm%", permission);
 	}
 
 }

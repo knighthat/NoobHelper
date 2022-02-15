@@ -8,39 +8,34 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import me.knighthat.plugin.NoobHelper;
 
-public abstract class Default
+public abstract class FileAbstract
 {
-
 	NoobHelper plugin;
 
 	String fileName;
 	File file;
-	FileConfiguration config;
+	FileConfiguration fileConfig;
 
-	public Default(NoobHelper plugin) {
-		this.plugin = plugin;
-	}
+	public void startup() {
 
-	void setFile( String fileName ) {
-		this.fileName = fileName;
-	}
-
-	void startup() {
 		file = new File(plugin.getDataFolder(), fileName);
-		checkFile();
+
+		if ( !file.exists() )
+			plugin.saveResource(fileName, false);
+
 		reload();
+
+		if ( !checkFile() )
+			doIfCheckFailed();
 	}
 
 	public FileConfiguration get() {
-		if ( file == null )
-			startup();
-		return config;
+		return fileConfig;
 	}
 
 	public void save() {
 		try {
-			config.save(file);
-			reload();
+			fileConfig.save(file);
 		} catch ( IOException e ) {
 			e.printStackTrace();
 		}
@@ -49,13 +44,11 @@ public abstract class Default
 	public void reload() {
 		if ( file == null )
 			startup();
-		checkFile();
-		config = YamlConfiguration.loadConfiguration(file);
+
+		fileConfig = YamlConfiguration.loadConfiguration(file);
 	}
 
-	void checkFile() {
-		if ( !file.exists() )
-			plugin.saveResource(fileName, false);
-	}
+	public abstract boolean checkFile();
 
+	public abstract void doIfCheckFailed();
 }

@@ -2,29 +2,34 @@ package me.knighthat.plugin.Events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
 import me.knighthat.plugin.Misc;
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.BlockData;
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.BlockDataFile;
+import me.knighthat.plugin.Files.ConfigFile;
 
 public class TrashBin
 {
 
-	Config config;
-	BlockData blockData;
+	ConfigFile config;
+	BlockDataFile blockData;
 
-	private Player player;
-	private final String path = "noobhelper.trash_bin.";
+	Player player;
+	Block block;
+	Location location;
+
+	private final String path = "trash_bin.";
 
 	public TrashBin(NoobHelper plugin, SignChangeEvent e) {
 
-		register(plugin, e.getPlayer());
+		register(plugin, e.getPlayer(), e.getBlock());
 
 		if ( !checkPermission("place") )
 			return;
@@ -33,48 +38,49 @@ public class TrashBin
 			return;
 
 		for ( int line = 0 ; line < 4 ; line++ )
-			e.setLine(line, config.getStringList("trash_bin.lines").get(line));
+			e.setLine(line, config.get().getStringList(path.concat("lines")).get(line));
 
-		addData(e.getBlock().getLocation());
-		player.sendMessage(config.getString("trash_bin.message", true));
+		addData();
+		player.sendMessage(config.getString(path.concat("message"), true));
 	}
 
 	public TrashBin(NoobHelper plugin, BlockBreakEvent e) {
 
-		register(plugin, e.getPlayer());
+		register(plugin, e.getPlayer(), e.getBlock());
 
 		final String id = getID(e.getBlock().getLocation());
 
-		if ( blockData.contains(id) )
+		if ( blockData.get().contains(id) )
 			if ( checkPermission("remove") ) {
-				blockData.set(id, null);
+				blockData.get().set(id, null);
 				blockData.save();
-				return;
 			} else
 				e.setCancelled(true);
 	}
 
-	public TrashBin(NoobHelper plugin, Player player, Location signLocation) {
+	public TrashBin(NoobHelper plugin, PlayerInteractEvent e) {
 
-		register(plugin, player);
+		register(plugin, e.getPlayer(), e.getClickedBlock());
 
-		if ( !blockData.contains(getID(signLocation)) )
+		if ( !blockData.get().contains(getID(location)) )
 			return;
 
 		if ( !checkPermission("use") )
 			return;
 
-		final String title = config.getString("trash_bin.title", false);
+		final String title = config.getString(path.concat("title"), false);
 
 		Inventory gui = Bukkit.createInventory(player, InventoryType.CHEST, title);
 
 		player.openInventory(gui);
 	}
 
-	void register( NoobHelper plugin, Player player ) {
+	void register( NoobHelper plugin, Player player, Block block ) {
 		this.player = player;
 		this.config = plugin.config;
 		this.blockData = plugin.blockdata;
+		this.block = block;
+		this.location = block.getLocation();
 	}
 
 	String getID( Location loc ) {
@@ -83,26 +89,25 @@ public class TrashBin
 		int y = loc.getBlockY();
 		int z = loc.getBlockZ();
 
-		return loc.getWorld().getName() + ".sign_" + x + y + z;
-
+		return loc.getWorld().getName().concat("." + x + y + z);
 	}
 
 	void setData( String path, Object value ) {
-		blockData.get().set(path, value);
+
+		String id = getID(block.getLocation()).concat(".");
+		blockData.get().set(id + path, value);
 	}
 
-	void addData( Location loc ) {
+	void addData() {
 
-		String id = getID(loc);
-		setData(id + ".X", loc.getBlockX());
-		setData(id + ".Y", loc.getBlockY());
-		setData(id + ".Z", loc.getBlockZ());
-		setData(id + ".Owner", player.getName());
+		setData("X", location.getBlockX());
+		setData("Y", location.getBlockY());
+		setData("Z", location.getBlockZ());
+		setData("Owner", player.getName());
 		blockData.save();
-
 	}
 
 	Boolean checkPermission( String permission ) {
-		return Misc.checkPermission(player, config, path + permission, true);
+		return Misc.checkPermission(player, config, path.concat(permission), true);
 	}
 }
