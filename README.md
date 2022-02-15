@@ -161,15 +161,27 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.4.3
+version: 0.5
 
 prefix: "&7[&aNoobHelper&7]"
 
+
 equipment_replacement: true
+
+
+death_chest:
+  enabled: true
+  message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
+  not_your_chest: "&eThis death chest &4&lDOES NOT &ebelong to you!"
+  retrieved: "&a&lCongrats! &rYou just successfully retrieved all your lost items."
+  play_sound: true
+
+
 smart_harvesting:
   enabled: true
-  sound: true    
-    
+  sound: true   
+
+
 break_assistant:
   enabled: true
   requirements: 
@@ -185,7 +197,7 @@ break_assistant:
     rate: 0.1
   apply_damage: true 
   
-  
+
 fast_leaf_decay:
   enabled: true
   # The higher the number, the longer the process.
@@ -205,8 +217,8 @@ trash_bin:
     - ""
     - ""
     - "&aRight click to use"
-    
-    
+       
+
 #
 #
 #         GENERAL MESSAGES
