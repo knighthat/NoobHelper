@@ -7,7 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class ToolReplacement {
+public class ToolReplacement
+{
 
 	PlayerInventory pInv;
 	int originalSlot;
@@ -17,20 +18,20 @@ public class ToolReplacement {
 		pInv = player.getInventory();
 		Map<Integer, ItemStack> contents = getContents(brokenItem);
 
-		for (int slot : contents.keySet())
-			if (pInv.getItem(slot).getType().equals(brokenItem.getType())) {
+		for ( int slot : contents.keySet() )
+			if ( pInv.getItem(slot).getType().equals(brokenItem.getType()) ) {
 				swapItems(player, slot);
 				break;
 			}
 	}
 
-	Map<Integer, ItemStack> getContents(ItemStack brokenItem) {
+	Map<Integer, ItemStack> getContents( ItemStack brokenItem ) {
 
 		Map<Integer, ItemStack> contents = new HashMap<>();
 
-		for (int slot = 0; slot < pInv.getSize(); slot++)
-			if (pInv.getItem(slot) != null)
-				if (pInv.getItem(slot).equals(brokenItem)) {
+		for ( int slot = 0 ; slot < pInv.getSize() ; slot++ )
+			if ( pInv.getItem(slot) != null )
+				if ( pInv.getItem(slot).equals(brokenItem) ) {
 					originalSlot = slot;
 				} else
 					contents.put(slot, pInv.getItem(slot));
@@ -38,7 +39,7 @@ public class ToolReplacement {
 		return contents;
 	}
 
-	void swapItems(Player player, Integer slot) {
+	void swapItems( Player player, Integer slot ) {
 		pInv.setItem(originalSlot, pInv.getItem(slot));
 		pInv.clear(slot);
 		player.updateInventory();

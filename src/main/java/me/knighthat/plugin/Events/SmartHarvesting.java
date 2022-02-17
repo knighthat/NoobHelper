@@ -11,13 +11,11 @@ public class SmartHarvesting
 
 		final Ageable crop = (Ageable) block.getBlockData();
 
-		if ( crop.getAge() != crop.getMaximumAge() )
-			return;
+		if ( crop.getAge() != crop.getMaximumAge() ) { return; }
 
 		block.breakNaturally();
 		block.setType(crop.getMaterial());
-		if ( playSound )
-			block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
+		if ( playSound ) { block.getWorld().playSound(block.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1); }
 	}
 
 }

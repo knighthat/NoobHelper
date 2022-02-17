@@ -17,26 +17,18 @@ public class BlockDataFile extends Files
 
 	public BlockDataFile(NoobHelper plugin) {
 		super.plugin = plugin;
-		setFile(this.fileName);
 		startup();
 	}
 
 	@Override
-	public boolean checkFile() {
-		return false;
-	}
+	public String setFile() { return "blockdata.yml"; }
 
-	Stream<String> getSections( String path ) {
-
-		if ( !get().contains(path) )
-			return (new ArrayList<String>()).stream();
-
-		Stream<String> result = get().getConfigurationSection(path).getKeys(true).stream();
-		return result.filter(section -> section.startsWith("sign_"));
-	}
+	@Override
+	public boolean checkFile() { return false; }
 
 	@Override
 	public void doIfCheckFailed() {
+
 		worlds.forEach(world -> {
 
 			getSections(world.getName()).forEach(section -> {
@@ -47,9 +39,17 @@ public class BlockDataFile extends Files
 				if ( section.contains("sign_") & section.endsWith(".Owner") )
 					get().set(section.replace(".Owner", ""), null);
 			});
-		});
 
-		save();
+			save();
+		});
+	}
+
+	Stream<String> getSections( String path ) {
+
+		if ( !get().contains(path) ) { return (new ArrayList<String>()).stream(); }
+
+		Stream<String> result = get().getConfigurationSection(path).getKeys(true).stream();
+		return result.filter(section -> section.startsWith("sign_"));
 	}
 
 }

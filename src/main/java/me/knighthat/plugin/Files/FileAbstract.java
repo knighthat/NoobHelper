@@ -12,26 +12,21 @@ public abstract class FileAbstract
 {
 	NoobHelper plugin;
 
-	String fileName;
 	File file;
 	FileConfiguration fileConfig;
 
 	public void startup() {
 
-		file = new File(plugin.getDataFolder(), fileName);
+		file = new File(plugin.getDataFolder(), setFile());
 
-		if ( !file.exists() )
-			plugin.saveResource(fileName, false);
+		if ( !file.exists() ) { plugin.saveResource(file.getName(), false); }
 
 		reload();
 
-		if ( !checkFile() )
-			doIfCheckFailed();
+		if ( !checkFile() ) { doIfCheckFailed(); }
 	}
 
-	public FileConfiguration get() {
-		return fileConfig;
-	}
+	public FileConfiguration get() { return fileConfig; }
 
 	public void save() {
 		try {
@@ -42,8 +37,7 @@ public abstract class FileAbstract
 	}
 
 	public void reload() {
-		if ( file == null )
-			startup();
+		if ( file == null | !file.exists() ) { startup(); }
 
 		fileConfig = YamlConfiguration.loadConfiguration(file);
 	}
@@ -51,4 +45,6 @@ public abstract class FileAbstract
 	public abstract boolean checkFile();
 
 	public abstract void doIfCheckFailed();
+
+	public abstract String setFile();
 }

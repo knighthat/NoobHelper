@@ -161,7 +161,7 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.5
+version: 0.5.1
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -251,3 +251,12 @@ no_permission: "&cYou don't have permission %perm% to do this!"
 ```
 
 </details>
+
+---
+
+  
+<p align="center">
+    <a href="http://fumacrom.com/3lNzk">
+      <img src="https://i.ibb.co/9Vh33L6/Formatter.png" alt="Formatter" border="0">
+    </a>
+</p>

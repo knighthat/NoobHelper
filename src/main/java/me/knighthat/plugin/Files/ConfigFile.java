@@ -11,13 +11,15 @@ public class ConfigFile extends Files
 	final String fileName = "config.yml";
 	String currentVersion;
 	String pluginVersion;
-	Integer fileNumber;
+	Integer fileNumber = 0;
 
 	public ConfigFile(NoobHelper plugin) {
 		super.plugin = plugin;
-		setFile(this.fileName);
 		startup();
 	}
+
+	@Override
+	public String setFile() { return "config.yml"; }
 
 	@Override
 	public boolean checkFile() {
@@ -52,6 +54,8 @@ public class ConfigFile extends Files
 			fileNumber++;
 			newFile = generateFileName();
 		}
+
+		fileNumber = 0;
 
 		return newFile;
 	}

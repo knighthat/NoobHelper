@@ -22,12 +22,14 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.Misc;
 import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.Events.BreakAssistant.BreakAssistant;
 
 public class Listener implements org.bukkit.event.Listener
 {
@@ -36,13 +38,9 @@ public class Listener implements org.bukkit.event.Listener
 
 	private List<Location> decayLocation = new ArrayList<>();
 
-	public Listener(NoobHelper plugin) {
-		this.plugin = plugin;
-	}
+	public Listener(NoobHelper plugin) { this.plugin = plugin; }
 
-	public Boolean isEnabled( String path ) {
-		return plugin.config.get().getBoolean(path);
-	}
+	public Boolean isEnabled( String path ) { return plugin.config.get().getBoolean(path); }
 
 	boolean checkPerm( Player player, String permission ) {
 		return Misc.checkPermission(player, plugin.config, permission);
@@ -75,12 +73,12 @@ public class Listener implements org.bukkit.event.Listener
 			}
 
 		if ( isEnabled("trash_bin.enabled") & blockData instanceof Sign ) {
-			new TrashBin(plugin, event);
+			new me.knighthat.plugin.Events.TrashBin.Use(plugin, event);
 			return;
 		}
 
 		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) {
-			new DeathChest(plugin, event);
+			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, event);
 			return;
 		}
 
@@ -97,12 +95,11 @@ public class Listener implements org.bukkit.event.Listener
 		}
 
 		if ( blockData instanceof Sign ) {
-			new TrashBin(plugin, event);
+			new me.knighthat.plugin.Events.TrashBin.Break(plugin, event);
 			return;
 		}
 
-		if ( isEnabled("break_assistant.enabled") )
-			new BreakAssistant(plugin.config, event);
+		if ( isEnabled("break_assistant.enabled") ) { new BreakAssistant(plugin.config, event); }
 
 	}
 
@@ -126,9 +123,7 @@ public class Listener implements org.bukkit.event.Listener
 				new BukkitRunnable() {
 
 					@Override
-					public void run() {
-						decayLocation.remove(eLoc);
-					}
+					public void run() { decayLocation.remove(eLoc); }
 				}.runTaskLaterAsynchronously(plugin, 20L * 60L);
 
 			}
@@ -141,7 +136,7 @@ public class Listener implements org.bukkit.event.Listener
 	public void playerPlaceTrashBin( SignChangeEvent event ) {
 
 		if ( isEnabled("trash_bin.enabled") )
-			new TrashBin(plugin, event);
+			new me.knighthat.plugin.Events.TrashBin.Place(plugin, event);
 
 		for ( int line = 0 ; line < event.getLines().length ; line++ )
 			event.setLine(line, Misc.addColor(event.getLine(line)));
@@ -149,15 +144,21 @@ public class Listener implements org.bukkit.event.Listener
 
 	@EventHandler
 	public void onPlayerDeath( PlayerDeathEvent event ) {
+
 		final Player player = event.getEntity();
+
 		if ( !isEnabled("death_chest.enabled") | !checkPerm(player, "death_chest") )
 			return;
-		new DeathChest(plugin, player);
 
-		List<ItemStack> drops = event.getDrops();
-		ListIterator<ItemStack> contents = drops.listIterator();
+		new me.knighthat.plugin.Events.DeathChest.Creation(plugin, player);
+
+		ListIterator<ItemStack> contents = event.getDrops().listIterator();
 		while ( contents.hasNext() )
-			if ( contents.next() != null )
-				contents.remove();
+			if ( contents.next() != null ) { contents.remove(); }
+	}
+
+	@EventHandler
+	public void onPlayerRespawn( PlayerRespawnEvent event ) {
+
 	}
 }

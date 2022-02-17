@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Leaves;
@@ -12,39 +13,32 @@ import org.bukkit.block.data.type.Leaves;
 public interface Storage
 {
 
-	public default List<Block> getAffiliation( Block key, int maxBlocks ) {
+	default List<Block> getAffiliation( Block key, int maxBlocks ) {
 
 		maxBlocks = maxBlocks == 0 ? 200 : maxBlocks;
 
 		return getAffiliation(key, initiation(key), maxBlocks);
 	}
 
-	public default List<Block> getAffiliation( Block key, Map<Block, List<Block>> map, int maxBlocks ) {
+	default List<Block> getAffiliation( Block key, Map<Block, List<Block>> map, int maxBlocks ) {
 
 		List<Block> oldBLocks = new ArrayList<Block>(map.get(key));
 
-		if ( !(key.getBlockData() instanceof Leaves) & oldBLocks.size() >= maxBlocks )
-			return oldBLocks;
+		if ( !(key.getBlockData() instanceof Leaves) & oldBLocks.size() >= maxBlocks ) { return oldBLocks; }
 
-		oldBLocks.stream().forEach(block -> {
+		oldBLocks.forEach(block -> {
 
 			for ( Block b : getFacings(block) )
-				if ( !map.get(key).contains(b) )
-					map.get(key).add(b);
+				if ( !map.get(key).contains(b) ) { map.get(key).add(b); }
 
 		});
 
-		if ( map.get(key).size() > oldBLocks.size() )
-			getAffiliation(key, map, maxBlocks);
+		if ( map.get(key).size() > oldBLocks.size() ) { getAffiliation(key, map, maxBlocks); }
 
 		return map.get(key);
 	}
 
-	private boolean isSimilar( Block block1, Block block2 ) {
-
-		return block1.getType().equals(block2.getType());
-
-	}
+	private boolean isSimilar( Block block1, Block block2 ) { return block1.getType().equals(block2.getType()); }
 
 	private List<Block> getFacings( Block block ) {
 
@@ -64,4 +58,12 @@ public interface Storage
 		map.get(key).add(key);
 		return map;
 	}
+
+	default String generateID( final String path, Location location ) {
+
+		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
+
+		return path.concat("" + x + y + z);
+	}
+
 }

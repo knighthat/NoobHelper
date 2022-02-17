@@ -36,8 +36,7 @@ public class FastLeafDecay implements Storage
 
 					Block leaf = leaves.get(count);
 
-					if ( config.get().getBoolean("fast_leaf_decay.play_effect") )
-						playEffect(leaf);
+					if ( config.get().getBoolean("fast_leaf_decay.play_effect") ) { playEffect(leaf); }
 
 					decomposition(leaf);
 
@@ -52,12 +51,10 @@ public class FastLeafDecay implements Storage
 	}
 
 	private void decomposition( Block leaf ) {
-		if ( !(leaf.getBlockData() instanceof Leaves) )
-			return;
+		if ( !(leaf.getBlockData() instanceof Leaves) ) { return; }
 
 		Leaves l = (Leaves) leaf.getBlockData();
-		if ( !(l.isPersistent() & l.getDistance() > 2) )
-			leaf.breakNaturally();
+		if ( !(l.isPersistent() & l.getDistance() > 2) ) { leaf.breakNaturally(); }
 	}
 
 	private void playEffect( Block block ) {
