@@ -152,6 +152,9 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 ### `noobhelper.trash_bin.use`
 - Required to open/use by right-clicking the trash bin sign.
 
+### `noobhelper.death_chest`
+- Required to create Death Chest on Death.
+
 ---
 
 
