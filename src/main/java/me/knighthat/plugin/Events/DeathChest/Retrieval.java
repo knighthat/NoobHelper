@@ -61,7 +61,7 @@ public class Retrieval extends Storage
 
 		PlayerInventory pInv = player.getInventory();
 
-		player.setTotalExperience(deathChests.get().getInt(pSection.concat(".Exp")));
+		player.giveExp(deathChests.get().getInt(pSection.concat(".Exp")));
 
 		for ( String path : deathChests.getSections(pSection.concat(".items"), false) ) {
 

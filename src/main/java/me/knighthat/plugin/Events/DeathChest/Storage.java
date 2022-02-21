@@ -17,7 +17,7 @@ import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
 
-public abstract class Storage implements me.knighthat.plugin.Events.Storage
+public abstract class Storage implements me.knighthat.plugin.Events.Storage, ExpCalculator
 {
 
 	NoobHelper plugin;
@@ -64,7 +64,7 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 		set("X", location.getBlockX());
 		set("Y", location.getBlockY());
 		set("Z", location.getBlockZ());
-		set("Exp", player.getTotalExperience());
+		set("Exp", getPlayerExp(player));
 		for ( int slot : contents.keySet() ) { set("items." + slot, contents.get(slot)); }
 		deathChests.save();
 	}

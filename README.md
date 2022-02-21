@@ -185,7 +185,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.6
+version: 0.6.1
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -205,8 +205,7 @@ death_chest:
   # Title for GUI of "[HERE]" button above
   # %player% displays actual name, %display_name% shows their nick names
   container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
-  no_previous_dead_location: "&eLooks like you're immortal, m8!" 
-
+  no_previous_dead_location: "&eLooks like you're immortal, m8!"
 
 
 smart_harvesting:
@@ -249,7 +248,7 @@ trash_bin:
     - ""
     - ""
     - "&aRight click to use"
-       
+  
 
 #
 #
@@ -260,7 +259,6 @@ trash_bin:
 reload: "&aAll files had been reloaded!"
 player_reload: "%player% issued reload command!"
 no_permission: "&cYou don't have permission %perm% to do this!"
-
 ```
 
 </details>
