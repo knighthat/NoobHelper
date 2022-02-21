@@ -15,23 +15,25 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.block.data.type.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.plugin.Misc;
+import me.knighthat.plugin.Miscellaneous;
 import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.Commands.LostItems;
 import me.knighthat.plugin.Events.BreakAssistant.BreakAssistant;
 
-public class Listener implements org.bukkit.event.Listener
+public class Listener implements org.bukkit.event.Listener, Miscellaneous
 {
 
 	NoobHelper plugin;
@@ -42,9 +44,7 @@ public class Listener implements org.bukkit.event.Listener
 
 	public Boolean isEnabled( String path ) { return plugin.config.get().getBoolean(path); }
 
-	boolean checkPerm( Player player, String permission ) {
-		return Misc.checkPermission(player, plugin.config, permission);
-	}
+	boolean checkPerm( Player player, String permission ) { return checkPermission(player, plugin.config, permission); }
 
 	@EventHandler
 	public void onToolBreak( PlayerItemBreakEvent event ) {
@@ -52,7 +52,7 @@ public class Listener implements org.bukkit.event.Listener
 		Player player = event.getPlayer();
 
 		if ( isEnabled("equipment_replacement") & checkPerm(player, ".eqiuipment_replacement") )
-			new ToolReplacement(event.getPlayer(), event.getBrokenItem());
+			new EquipmentReplacement(event.getPlayer(), event.getBrokenItem());
 	}
 
 	@EventHandler
@@ -61,14 +61,13 @@ public class Listener implements org.bukkit.event.Listener
 		if ( !EquipmentSlot.HAND.equals(event.getHand()) | !Action.RIGHT_CLICK_BLOCK.equals(event.getAction()) )
 			return;
 
-		Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 		BlockData blockData = block.getBlockData();
 		BlockState blockState = block.getState();
 
 		if ( isEnabled("smart_harvesting.enabled") & blockData instanceof Ageable )
-			if ( checkPerm(player, "smart_harvesting") ) {
-				new SmartHarvesting(event.getClickedBlock(), isEnabled("smart_harvesting.sound"));
+			if ( checkPerm(event.getPlayer(), "smart_harvesting") ) {
+				new SmartHarvesting(block, isEnabled("smart_harvesting.sound"));
 				return;
 			}
 
@@ -78,10 +77,9 @@ public class Listener implements org.bukkit.event.Listener
 		}
 
 		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) {
-			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, event);
+			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, event, null);
 			return;
 		}
-
 	}
 
 	@EventHandler
@@ -96,6 +94,11 @@ public class Listener implements org.bukkit.event.Listener
 
 		if ( blockData instanceof Sign ) {
 			new me.knighthat.plugin.Events.TrashBin.Break(plugin, event);
+			return;
+		}
+
+		if ( event.getBlock().getState() instanceof Chest ) {
+			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, null, event);
 			return;
 		}
 
@@ -139,7 +142,7 @@ public class Listener implements org.bukkit.event.Listener
 			new me.knighthat.plugin.Events.TrashBin.Place(plugin, event);
 
 		for ( int line = 0 ; line < event.getLines().length ; line++ )
-			event.setLine(line, Misc.addColor(event.getLine(line)));
+			event.setLine(line, addColor(event.getLine(line)));
 	}
 
 	@EventHandler
@@ -157,8 +160,9 @@ public class Listener implements org.bukkit.event.Listener
 			if ( contents.next() != null ) { contents.remove(); }
 	}
 
-	@EventHandler
-	public void onPlayerRespawn( PlayerRespawnEvent event ) {
-
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onInventoryInteract( InventoryClickEvent event ) {
+		if ( event.getInventory().getHolder() instanceof LostItems )
+			event.setCancelled(true);
 	}
 }

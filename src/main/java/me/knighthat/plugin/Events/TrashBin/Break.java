@@ -13,10 +13,10 @@ public class Break extends Storage
 
 		final String id = getID(e.getBlock().getLocation());
 
-		if ( blockData.get().contains(id) )
+		if ( trashBins.get().contains(id) )
 			if ( checkPermission("remove") ) {
-				blockData.get().set(id, null);
-				blockData.save();
+				trashBins.get().set(id, null);
+				trashBins.save();
 			} else
 				e.setCancelled(true);
 	}

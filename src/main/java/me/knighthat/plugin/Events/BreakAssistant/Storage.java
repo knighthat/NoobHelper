@@ -8,20 +8,19 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.jetbrains.annotations.NotNull;
 
-import me.knighthat.plugin.Misc;
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Miscellaneous;
+import me.knighthat.plugin.Files.Config;
 
-public abstract class Storage implements me.knighthat.plugin.Events.Storage
+public abstract class Storage implements me.knighthat.plugin.Events.Storage, Miscellaneous
 {
 
 	Player player;
-	ConfigFile config;
+	Config config;
 
 	final String path = "break_assistant.";
 
-	public Boolean isEnabled( @NotNull String path ) { return config.get().getBoolean(path); }
+	public Boolean isEnabled( String path ) { return config.get().getBoolean(path); }
 
 	boolean checkTool() {
 
@@ -31,14 +30,14 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 		return false;
 	}
 
-	boolean isRequired( @NotNull String path ) { return isEnabled(this.path + "requirements." + path); }
+	boolean isRequired( String path ) { return isEnabled(this.path + "requirements." + path); }
 
 	boolean checkRequirements() {
 
 		if ( isRequired("sneaking") & !player.isSneaking() ) { return false; }
 
 		if ( isRequired("permission") )
-			if ( !Misc.checkPermission(player, config, path.replace(".", ""), false) )
+			if ( !checkPermission(player, config, path.replace(".", ""), false) )
 				return false;
 
 		if ( isRequired("survival_mode") & !player.getGameMode().equals(GameMode.SURVIVAL) )

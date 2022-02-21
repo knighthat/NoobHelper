@@ -5,12 +5,11 @@ import java.util.List;
 import org.bukkit.block.Block;
 import org.bukkit.event.block.BlockBreakEvent;
 
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Files.Config;
 
 public class BreakAssistant extends Storage
 {
-
-	public BreakAssistant(ConfigFile config, BlockBreakEvent e) {
+	public BreakAssistant(Config config, BlockBreakEvent e) {
 
 		this.config = config;
 		this.player = e.getPlayer();

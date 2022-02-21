@@ -1,4 +1,4 @@
-version: 0.5.1
+version: 0.6
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -8,10 +8,17 @@ equipment_replacement: true
 
 death_chest:
   enabled: true
-  message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
+  death_message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
   not_your_chest: "&eThis death chest &4&lDOES NOT &ebelong to you!"
   retrieved: "&a&lCongrats! &rYou just successfully retrieved all your lost items."
-  play_sound: true
+  retrieval_sound: true
+  # Anything between two "%" will show to player
+  # but player can click on it to review items.
+  content_message: "&2Click %&b&l[HERE]% &2to review your lost items"
+  # Title for GUI of "[HERE]" button above
+  # %player% displays actual name, %display_name% shows their nick names
+  container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
+  no_previous_dead_location: "&eLooks like you're immortal, m8!"
 
 
 smart_harvesting:
@@ -33,7 +40,7 @@ break_assistant:
     enabled: true
     rate: 0.1
   apply_damage: true 
-  
+
 
 fast_leaf_decay:
   enabled: true
@@ -54,7 +61,7 @@ trash_bin:
     - ""
     - ""
     - "&aRight click to use"
-       
+  
 
 #
 #

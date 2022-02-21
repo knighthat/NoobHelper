@@ -7,13 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class ToolReplacement
+public class EquipmentReplacement
 {
 
 	PlayerInventory pInv;
 	int originalSlot;
 
-	public ToolReplacement(Player player, ItemStack brokenItem) {
+	public EquipmentReplacement(Player player, ItemStack brokenItem) {
 
 		pInv = player.getInventory();
 		Map<Integer, ItemStack> contents = getContents(brokenItem);

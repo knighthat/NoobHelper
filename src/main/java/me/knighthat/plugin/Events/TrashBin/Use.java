@@ -14,7 +14,7 @@ public class Use extends Storage
 
 		register(plugin, e.getPlayer(), e.getClickedBlock());
 
-		if ( !blockData.get().contains(getID(location)) ) { return; }
+		if ( !trashBins.get().contains(getID(location)) ) { return; }
 
 		if ( !checkPermission("use") ) { return; }
 

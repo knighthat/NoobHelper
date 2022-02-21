@@ -2,6 +2,7 @@ package me.knighthat.plugin.Events.DeathChest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -13,17 +14,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.BlockDataFile;
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.DeathChests;
 
 public abstract class Storage implements me.knighthat.plugin.Events.Storage
 {
 
 	NoobHelper plugin;
-	ConfigFile config;
-	BlockDataFile blockData;
+	Config config;
+	DeathChests deathChests;
 
 	Player player;
+	String playerName;
+	UUID uuid;
+	String pSection;
+
 	Chest chest;
 	Location location;
 
@@ -35,8 +40,11 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 
 		this.plugin = plugin;
 		this.config = plugin.config;
-		this.blockData = plugin.blockdata;
+		this.deathChests = plugin.deathChests;
 		this.player = player;
+		this.playerName = player.getName();
+		this.uuid = player.getUniqueId();
+		this.pSection = playerName.concat("_" + uuid);
 		this.location = block == null ? player.getLocation() : block.getLocation();
 	}
 
@@ -53,28 +61,19 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 
 	void registerContents() {
 
-		set("Name", player.getName());
-		set("UUID", player.getUniqueId().toString());
 		set("X", location.getBlockX());
 		set("Y", location.getBlockY());
 		set("Z", location.getBlockZ());
+		set("Exp", player.getTotalExperience());
 		for ( int slot : contents.keySet() ) { set("items." + slot, contents.get(slot)); }
-		blockData.save();
+		deathChests.save();
 	}
 
-	void set( String path, Object value ) { blockData.get().set(generateID().concat("." + path), value); }
+	void set( String path, Object value ) {
 
-	public String generateID() { return generateID(path, location); }
-
-	void sendMessage() {
-
-		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
-		String X = String.valueOf(x), Y = String.valueOf(y), Z = String.valueOf(z);
-
-		String msg = config.getString(path + "message", true);
-		msg = msg.replace("%x%", X).replace("%y%", Y).replace("%z%", Z);
-
-		player.sendMessage(msg);
+		String header = pSection.concat("." + location.getWorld().getName());
+		deathChests.get().set(header.concat("." + generateID() + "." + path), value);
 	}
 
+	public String generateID() { return generateID("", location); }
 }

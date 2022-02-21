@@ -11,12 +11,12 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Files.Config;
 
 public class FastLeafDecay implements Storage
 {
 
-	ConfigFile config;
+	Config config;
 
 	public FastLeafDecay(NoobHelper plugin, LeavesDecayEvent e) {
 
@@ -36,7 +36,7 @@ public class FastLeafDecay implements Storage
 
 					Block leaf = leaves.get(count);
 
-					if ( config.get().getBoolean("fast_leaf_decay.play_effect") ) { playEffect(leaf); }
+					if ( config.get().getBoolean("fast_leaf_decay.add_effect") ) { playEffect(leaf); }
 
 					decomposition(leaf);
 

@@ -4,15 +4,15 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Misc;
+import me.knighthat.plugin.Miscellaneous;
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.BlockDataFile;
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.TrashBins;
 
-public abstract class Storage implements me.knighthat.plugin.Events.Storage
+public abstract class Storage implements me.knighthat.plugin.Events.Storage, Miscellaneous
 {
-	ConfigFile config;
-	BlockDataFile blockData;
+	Config config;
+	TrashBins trashBins;
 
 	Player player;
 	Block block;
@@ -23,7 +23,7 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 	void register( NoobHelper plugin, Player player, Block block ) {
 		this.player = player;
 		this.config = plugin.config;
-		this.blockData = plugin.blockdata;
+		this.trashBins = plugin.trashBins;
 		this.block = block;
 		this.location = block.getLocation();
 	}
@@ -40,7 +40,10 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 	String generateID() { return generateID(location.getWorld().getName(), location); }
 
 	Boolean checkPermission( String permission ) {
-		return Misc.checkPermission(player, config, path.concat(permission), true);
+
+		if ( player.hasPermission("noobhelper.trash_bin.*") ) { return true; }
+
+		return checkPermission(player, config, path.concat(permission), true);
 	}
 
 	void addData() {
@@ -49,13 +52,13 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage
 		setData("Y", location.getBlockY());
 		setData("Z", location.getBlockZ());
 		setData("Owner", player.getName());
-		blockData.save();
+		trashBins.save();
 	}
 
 	void setData( String path, Object value ) {
 
 		String id = getID(block.getLocation()).concat(".");
-		blockData.get().set(id + path, value);
+		trashBins.get().set(id + path, value);
 	}
 
 }

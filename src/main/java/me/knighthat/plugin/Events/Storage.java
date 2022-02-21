@@ -10,7 +10,9 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.type.Leaves;
 
-public interface Storage
+import me.knighthat.plugin.Miscellaneous;
+
+public interface Storage extends Miscellaneous
 {
 
 	default List<Block> getAffiliation( Block key, int maxBlocks ) {

@@ -33,12 +33,11 @@
 
 
 
-<p align="center">
-    <img src="https://i.ibb.co/GHFzSg5/Features.png" alt="Features" border="0">
-</p>
-
-
-## Block Break Assistant
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/fMb2KFg/Break-Assistant.png" alt="Break-Assistant" border="0">
+  </p>
+</h2>
 
 Too tired with mining block by block? Don’t worry, I’m here to rescue. This feature allows you to break many blocks that have the same properties at once.
 
@@ -50,21 +49,25 @@ Too tired with mining block by block? Don’t worry, I’m here to rescue. This 
 
 
 
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/cDszbPH/Fast-Leaf-Decay.png" alt="Fast-Leaf-Decay" border="0">
+  </p>
+</h2>
 
-
-## Fast Leaf Decay
-
-Simply speed up the decaying process. No more waiting
+Simply speed up the decaying process. No more waiting!
 
 <details><summary> Example </summary>
     <img src="https://i.ibb.co/2n99p0c/Faster-Leaf-Decay.gif" alt="Faster-Leaf-Decay" border="0">
 </details>
 
- 
 
 
-
-## Smart Harvest
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/378TsFC/Smart-Harvest.png" alt="Smart-Harvest" border="0">
+  </p>
+</h2>
 
 This one is my favorite; imagine you don’t have to break crops just to realize it’s not fully grown yet. With this plugin, just right-click and you’ll see MAGIC!
 
@@ -72,11 +75,13 @@ This one is my favorite; imagine you don’t have to break crops just to realize
     <img src="https://i.ibb.co/b3K1PD3/Smart-Harvest.gif" alt="Smart-Harvest" border="0">
 </details>
 
- 
 
 
-
-## Tool Replacement
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/XzS2Fz0/Equipment-Reload.png" alt="Equipment-Reload" border="0">
+  </p>
+</h2>
 
 Here, my friend. One of the greatest features in this plugin. No longer go to inventory and search for the tool because yours just broke, my plugin can handle that in a blink of an eye
 
@@ -86,9 +91,11 @@ Here, my friend. One of the greatest features in this plugin. No longer go to in
 
 
 
-
-
-## Trash Bin
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/J7yVstF/TrashBin.png" alt="TrashBin" border="0">
+  </p>
+</h2>
 
 It can destroy everything, seriously! Even the Netherite items
 
@@ -98,11 +105,14 @@ It can destroy everything, seriously! Even the Netherite items
 
 
 
-
-
-## Death Chest
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/cJ20dPp/Death-Chest.png" alt="Death-Chest" border="0">
+  </p>
+</h2>
 
 Saves player's inventory when he/she dies. Inventory once created can only be retreived by the owner.
+Lost items can be tracked by using `/noobhelper lostitems` command
 
 <details><summary> Example </summary>
   <img src="https://i.ibb.co/WPwSmL7/Death-Chest.gif" alt="Death-Chest" border="0">
@@ -118,12 +128,16 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 
 
 
-### `/noobhelper reload`
+## `/noobhelper reload`
 
 - Reload plugin
 - Permission: **_noobhelper.command.reload_**
 
+## `/noobhelper lostitems`
+- See the nearest death chest
+
 ---
+
 
 
 <p align="center">
@@ -131,31 +145,38 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 </p>
 
 
-### `noobhelper.command.[command]`
+## `noobhelper.command.*`
+- Wildcard to use all commands that are available
+
+## `noobhelper.command.[command]`
 - Required to execute command to open certain GUIs.
 
-### `noobhelper.equipment_replacement`
+## `noobhelper.equipment_replacement`
 - Requried to replace tool when it breaks.
 
-### `noobhelper.smart_harvesting`
+## `noobhelper.smart_harvesting`
 - Required to be able to harvest crops.
 
-### `noobhelper.break_assistant`
+## `noobhelper.break_assistant`
 - Required to perform multiple blocks breaking at once.
 
-### `noobhelper.trash_bin.place`
+## `noobhelper.trash_bin.*`
+- Wildcard for trash bin feature, gives player full control.
+
+## `noobhelper.trash_bin.place`
 - Required to create trash bin sign.
 
-### `noobhelper.trash_bin.remove`
+## `noobhelper.trash_bin.remove`
 - Required to destroy trash bin sign.
 
-### `noobhelper.trash_bin.use`
+## `noobhelper.trash_bin.use`
 - Required to open/use by right-clicking the trash bin sign.
 
-### `noobhelper.death_chest`
+## `noobhelper.death_chest`
 - Required to create Death Chest on Death.
 
 ---
+
 
 
 <p align="center">
@@ -164,7 +185,7 @@ Saves player's inventory when he/she dies. Inventory once created can only be re
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.5.1
+version: 0.6
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -174,10 +195,18 @@ equipment_replacement: true
 
 death_chest:
   enabled: true
-  message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
+  death_message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
   not_your_chest: "&eThis death chest &4&lDOES NOT &ebelong to you!"
   retrieved: "&a&lCongrats! &rYou just successfully retrieved all your lost items."
-  play_sound: true
+  retrieval_sound: true
+  # Anything between two "%" will show to player
+  # but player can click on it to review items.
+  content_message: "&2Click %&b&l[HERE]% &2to review your lost items"
+  # Title for GUI of "[HERE]" button above
+  # %player% displays actual name, %display_name% shows their nick names
+  container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
+  no_previous_dead_location: "&eLooks like you're immortal, m8!" 
+
 
 
 smart_harvesting:
@@ -199,7 +228,7 @@ break_assistant:
     enabled: true
     rate: 0.1
   apply_damage: true 
-  
+
 
 fast_leaf_decay:
   enabled: true
@@ -231,6 +260,7 @@ trash_bin:
 reload: "&aAll files had been reloaded!"
 player_reload: "%player% issued reload command!"
 no_permission: "&cYou don't have permission %perm% to do this!"
+
 ```
 
 </details>
@@ -238,26 +268,7 @@ no_permission: "&cYou don't have permission %perm% to do this!"
 ---
 
 
-<p align="center">
-	<img src="https://i.ibb.co/4N0zFHK/Block-Data.png" alt="Block-Data" border="0">
-</p>
 
-<details><summary> SEE FILE </summary>
-
-```YML
-#
-#  !WARNING! PLEASE DO NOT APPLY ANY CHANGES TO THIS FILE. 
-#  
-#  You are responsible for any potential issues happen to your
-#  server if any modification is applied by human.
-#
-```
-
-</details>
-
----
-
-  
 <p align="center">
     <a href="http://fumacrom.com/3lNzk">
       <img src="https://i.ibb.co/9Vh33L6/Formatter.png" alt="Formatter" border="0">

@@ -2,10 +2,9 @@ package me.knighthat.plugin.Files;
 
 import java.io.File;
 
-import me.knighthat.plugin.Misc;
 import me.knighthat.plugin.NoobHelper;
 
-public class ConfigFile extends Files
+public class Config extends Files
 {
 
 	final String fileName = "config.yml";
@@ -13,7 +12,7 @@ public class ConfigFile extends Files
 	String pluginVersion;
 	Integer fileNumber = 0;
 
-	public ConfigFile(NoobHelper plugin) {
+	public Config(NoobHelper plugin) {
 		super.plugin = plugin;
 		startup();
 	}
@@ -31,8 +30,8 @@ public class ConfigFile extends Files
 
 	@Override
 	public void doIfCheckFailed() {
-		Misc.sendMessage("&cDetected unsupported version of &2config.yml");
-		Misc.sendMessage("&eSaving old file and generating new one...");
+		sendMessage("&cDetected unsupported version of &2config.yml");
+		sendMessage("&eSaving old file and generating new one...");
 
 		final File oldFile = generateFileName();
 
@@ -40,13 +39,13 @@ public class ConfigFile extends Files
 		file.delete();
 		reload();
 
-		Misc.sendMessage("&aNew file generated successfully!");
-		Misc.sendMessage("&aYou can find it under name " + oldFile.getName());
+		sendMessage("&aNew file generated successfully!");
+		sendMessage("&aYou can find it under name " + oldFile.getName());
 	}
 
 	File generateFileName() {
 
-		String copies = (fileNumber == 0 ? "" : " (" + fileNumber + ") ").concat(".old");
+		String copies = (fileNumber == 0 ? "" : " (" + fileNumber + ")").concat(".old");
 
 		File newFile = new File(plugin.getDataFolder(), fileName + copies);
 

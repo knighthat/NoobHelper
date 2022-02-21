@@ -22,8 +22,6 @@ public abstract class FileAbstract
 		if ( !file.exists() ) { plugin.saveResource(file.getName(), false); }
 
 		reload();
-
-		if ( !checkFile() ) { doIfCheckFailed(); }
 	}
 
 	public FileConfiguration get() { return fileConfig; }
@@ -37,9 +35,12 @@ public abstract class FileAbstract
 	}
 
 	public void reload() {
+
 		if ( file == null | !file.exists() ) { startup(); }
 
 		fileConfig = YamlConfiguration.loadConfiguration(file);
+
+		if ( !checkFile() ) { doIfCheckFailed(); }
 	}
 
 	public abstract boolean checkFile();

@@ -2,13 +2,28 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.knighthat.NoobHelper</groupId>
   <artifactId>NoobHelperPlugin</artifactId>
-  <version>0.5.1</version>
+  <version>0.6</version>
   <name>Noob Helper</name>
   <description>Integrated many helpful features to make game easier to play	</description>
-  
+
+  <build>
+    <plugins>
+      <plugin>    
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>2.5</version>
+        <configuration>
+            <source>11</source>
+            <target>11</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
   </properties>
   
   <repositories>
@@ -24,12 +39,5 @@
       <artifactId>paper-api</artifactId>
       <version>1.14-R0.1-20190513.041059-17</version>
     </dependency>
-    <dependency>
-      <groupId>io.papermc.paper</groupId>
-      <artifactId>paper-api</artifactId>
-      <version>1.18.1-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
-  
 </project>

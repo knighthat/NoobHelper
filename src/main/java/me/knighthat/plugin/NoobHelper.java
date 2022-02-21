@@ -1,23 +1,44 @@
 package me.knighthat.plugin;
 
+import java.io.File;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
-import me.knighthat.plugin.Commands.Reload;
+import me.knighthat.plugin.Commands.Manager;
 import me.knighthat.plugin.Events.Listener;
-import me.knighthat.plugin.Files.BlockDataFile;
-import me.knighthat.plugin.Files.ConfigFile;
+import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.plugin.Files.TrashBins;
 
 public class NoobHelper extends JavaPlugin
 {
 
-	public ConfigFile config = new ConfigFile(this);
-	public BlockDataFile blockdata = new BlockDataFile(this);
+	public Config config = new Config(this);
+	public TrashBins trashBins = new TrashBins(this);
+	public DeathChests deathChests = new DeathChests(this);
 
 	@Override
 	public void onEnable() {
 
-		getCommand("noobhelper").setExecutor(new Reload(this));
+		getCommand("noobhelper").setExecutor(new Manager(this));
 
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
+
+		checkFiles();
+	}
+
+	void checkFiles() {
+
+		File oldFile = new File(getDataFolder(), "blockdata.yml");
+
+		if ( !oldFile.exists() )
+			return;
+
+		trashBins.copyContent(oldFile);
+		trashBins.reload();
+		deathChests.copyContent(oldFile);
+		deathChests.reload();
+
+		oldFile.delete();
 	}
 }
