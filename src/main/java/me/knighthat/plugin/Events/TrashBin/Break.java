@@ -2,7 +2,7 @@ package me.knighthat.plugin.Events.TrashBin;
 
 import org.bukkit.event.block.BlockBreakEvent;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 
 public class Break extends Storage
 {

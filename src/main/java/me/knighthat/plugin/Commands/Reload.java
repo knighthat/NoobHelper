@@ -3,10 +3,11 @@ package me.knighthat.plugin.Commands;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Miscellaneous;
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
+import me.knighthat.utils.ConsoleSender;
+import me.knighthat.utils.PermissionChecker;
 
-public class Reload implements Miscellaneous
+public class Reload implements PermissionChecker, ConsoleSender
 {
 
 	public Reload(NoobHelper plugin, CommandSender sender, Boolean isPlayer) {

@@ -4,12 +4,12 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Miscellaneous;
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.utils.PermissionChecker;
 
-public abstract class Storage implements me.knighthat.plugin.Events.Storage, Miscellaneous
+public abstract class Storage implements PermissionChecker
 {
 	Config config;
 	TrashBins trashBins;
@@ -37,7 +37,12 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage, Mis
 		return loc.getWorld().getName().concat("." + x + y + z);
 	}
 
-	String generateID() { return generateID(location.getWorld().getName(), location); }
+	String generateID() {
+
+		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
+
+		return location.getWorld().getName().concat("" + x + y + z);
+	}
 
 	Boolean checkPermission( String permission ) {
 

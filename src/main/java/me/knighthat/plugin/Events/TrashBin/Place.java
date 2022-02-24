@@ -2,7 +2,7 @@ package me.knighthat.plugin.Events.TrashBin;
 
 import org.bukkit.event.block.SignChangeEvent;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 
 public class Place extends Storage
 {

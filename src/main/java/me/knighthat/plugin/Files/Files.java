@@ -3,9 +3,9 @@ package me.knighthat.plugin.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.knighthat.plugin.Miscellaneous;
+import me.knighthat.utils.TextModification;
 
-public abstract class Files extends FileAbstract implements Miscellaneous
+public abstract class Files extends FileAbstract implements TextModification
 {
 
 	public String getString( String path ) { return addColor(get().getString(path)); }

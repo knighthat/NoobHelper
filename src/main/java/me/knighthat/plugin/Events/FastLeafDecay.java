@@ -1,5 +1,6 @@
 package me.knighthat.plugin.Events;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Location;
@@ -10,10 +11,10 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 
-public class FastLeafDecay implements Storage
+public class FastLeafDecay extends Storage
 {
 
 	Config config;
@@ -21,12 +22,12 @@ public class FastLeafDecay implements Storage
 	public FastLeafDecay(NoobHelper plugin, LeavesDecayEvent e) {
 
 		this.config = plugin.config;
-
-		long period = config.get().getInt("fast_leaf_decay.slowness");
+		super.starter = e.getBlock();
+		super.blocks.add(starter);
+		List<Block> leaves = super.getAffiliation(new ArrayList<>());
 
 		new BukkitRunnable() {
 
-			List<Block> leaves = getAffiliation(e.getBlock(), 0);
 			int count;
 
 			@Override
@@ -46,7 +47,7 @@ public class FastLeafDecay implements Storage
 
 			}
 
-		}.runTaskTimer(plugin, 1L, (period >= 1 ? period : 1L));
+		}.runTaskTimer(plugin, 1L, config.get().getInt("fast_leaf_decay.slowness"));
 
 	}
 
@@ -64,4 +65,7 @@ public class FastLeafDecay implements Storage
 		loc.getWorld().playSound(loc, Sound.BLOCK_GRASS_BREAK, 29, 1);
 
 	}
+
+	@Override
+	public int getMaxBlock() { return 999999999; }
 }

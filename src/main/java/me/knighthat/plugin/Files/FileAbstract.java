@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 
 public abstract class FileAbstract
 {

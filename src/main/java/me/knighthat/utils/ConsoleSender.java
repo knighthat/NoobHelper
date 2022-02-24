@@ -1,8 +1,10 @@
-package me.knighthat.plugin;
+package me.knighthat.utils;
 
 import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
+
+import me.knighthat.NoobHelper;
 
 public interface ConsoleSender extends TextModification
 {

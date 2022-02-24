@@ -5,10 +5,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Miscellaneous;
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 
-public class Manager implements CommandExecutor, Miscellaneous
+public class Manager implements CommandExecutor
 {
 
 	NoobHelper plugin;
@@ -27,7 +26,10 @@ public class Manager implements CommandExecutor, Miscellaneous
 			case "lostitems" :
 				if ( !isPlayer )
 					return true;
-				new LostItems(plugin, (Player) sender, args.length < 2 ? "" : args[1]);
+				if ( args.length < 2 ) {
+					new GetLostItems(plugin, (Player) sender);
+				} else
+					new GetLostItems(plugin, (Player) sender, args[1]);
 			break;
 		}
 

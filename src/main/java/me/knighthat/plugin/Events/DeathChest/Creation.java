@@ -6,13 +6,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
 
+@SuppressWarnings("deprecation")
 public class Creation extends Storage
 {
 
@@ -70,8 +71,8 @@ public class Creation extends Storage
 		ComponentBuilder hoverBuilder = new ComponentBuilder(lostItems);
 		HoverEvent hoverEvent = new HoverEvent(Action.SHOW_TEXT, hoverBuilder.create());
 
-		String path = playerName + "_" + uuid + "." + player.getWorld().getName();
-		final String cmd = "/noobhelper lostitems " + path.concat("." + generateID());
+//		String path = playerName + "_" + uuid + "." + player.getWorld().getName();
+		final String cmd = "/noobhelper lostitems " + generateID();
 		ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd);
 
 		TextComponent result = new TextComponent(input);
@@ -84,7 +85,7 @@ public class Creation extends Storage
 	TextComponent createLegacyString( String input ) {
 
 		TextComponent result = new TextComponent(input);
-		result.setHoverEvent(new HoverEvent(Action.SHOW_ENTITY, null));
+		result.setHoverEvent(new HoverEvent(Action.SHOW_ENTITY, new ComponentBuilder("").create()));
 		result.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, null));
 
 		return result;

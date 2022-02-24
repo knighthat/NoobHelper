@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 
 public class DeathChests extends Files
 {
@@ -76,5 +76,18 @@ public class DeathChests extends Files
 		}
 
 		save();
+	}
+
+	public Map<Integer, ItemStack> getItemList( String path ) {
+
+		Map<Integer, ItemStack> result = new HashMap<>();
+
+		Iterator<String> slots = getSections(path, false).iterator();
+		while ( slots.hasNext() ) {
+			String slot = slots.next();
+			result.put(Integer.parseInt(slot), get().getItemStack(path.concat("." + slot)));
+		}
+
+		return result;
 	}
 }

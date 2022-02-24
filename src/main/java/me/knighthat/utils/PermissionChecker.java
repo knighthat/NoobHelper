@@ -1,16 +1,10 @@
-package me.knighthat.plugin;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+package me.knighthat.utils;
 
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.Files;
 
-public interface Miscellaneous extends ConsoleSender
+public interface PermissionChecker extends TextModification
 {
 
 	default boolean checkPermission( Player player, Config config, String permission ) {
@@ -30,19 +24,6 @@ public interface Miscellaneous extends ConsoleSender
 			return false;
 		}
 		return true;
-	}
-
-	default <T extends Files> Map<Integer, ItemStack> getItemList( T file, String path ) {
-
-		Map<Integer, ItemStack> result = new HashMap<>();
-
-		Iterator<String> slots = file.getSections(path, false).iterator();
-		while ( slots.hasNext() ) {
-			String slot = slots.next();
-			result.put(Integer.parseInt(slot), file.get().getItemStack(path.concat("." + slot)));
-		}
-
-		return result;
 	}
 
 }

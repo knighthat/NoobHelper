@@ -1,4 +1,4 @@
-package me.knighthat.plugin;
+package me.knighthat;
 
 import java.io.File;
 
@@ -40,5 +40,14 @@ public class NoobHelper extends JavaPlugin
 		deathChests.reload();
 
 		oldFile.delete();
+	}
+
+	public final boolean checkVersion( double versionToCompare ) {
+
+		String version = getServer().getVersion();
+		int pointer = version.lastIndexOf(".");
+		version = version.substring(pointer - 2, pointer + 1);
+
+		return Double.parseDouble(version) >= versionToCompare;
 	}
 }

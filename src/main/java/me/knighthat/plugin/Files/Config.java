@@ -2,9 +2,10 @@ package me.knighthat.plugin.Files;
 
 import java.io.File;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
+import me.knighthat.utils.ConsoleSender;
 
-public class Config extends Files
+public class Config extends Files implements ConsoleSender
 {
 
 	final String fileName = "config.yml";
@@ -40,7 +41,7 @@ public class Config extends Files
 		reload();
 
 		sendMessage("&aNew file generated successfully!");
-		sendMessage("&aYou can find it under name " + oldFile.getName());
+		sendMessage("&aYou can find old one under name " + oldFile.getName());
 	}
 
 	File generateFileName() {

@@ -185,7 +185,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.6.1
+version: 0.6.2
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -202,9 +202,11 @@ death_chest:
   # Anything between two "%" will show to player
   # but player can click on it to review items.
   content_message: "&2Click %&b&l[HERE]% &2to review your lost items"
+  container_not_exist: "&cThis container is no longer exist."
   # Title for GUI of "[HERE]" button above
   # %player% displays actual name, %display_name% shows their nick names
   container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
+  exp_bottle_name: "&eExp: &a%exp%"
   no_previous_dead_location: "&eLooks like you're immortal, m8!"
 
 
@@ -227,6 +229,15 @@ break_assistant:
     enabled: true
     rate: 0.1
   apply_damage: true 
+  add_delay: true
+  # How long in ticks it has to wait
+  # before breaking the next block.
+  # 20 ticks / 1 second.
+  delay: 1
+  # Only work if add_delay is turned on.
+  # Require version 1.16.4 and above
+  add_effect: true
+  
 
 
 fast_leaf_decay:

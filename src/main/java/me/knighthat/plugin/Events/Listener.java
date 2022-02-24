@@ -28,12 +28,12 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.plugin.Miscellaneous;
-import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Commands.LostItems;
+import me.knighthat.NoobHelper;
+import me.knighthat.plugin.Commands.ContainerAbstract;
 import me.knighthat.plugin.Events.BreakAssistant.BreakAssistant;
+import me.knighthat.utils.PermissionChecker;
 
-public class Listener implements org.bukkit.event.Listener, Miscellaneous
+public class Listener implements org.bukkit.event.Listener, PermissionChecker
 {
 
 	NoobHelper plugin;
@@ -102,7 +102,7 @@ public class Listener implements org.bukkit.event.Listener, Miscellaneous
 			return;
 		}
 
-		if ( isEnabled("break_assistant.enabled") ) { new BreakAssistant(plugin.config, event); }
+		if ( isEnabled("break_assistant.enabled") ) { new BreakAssistant(plugin, event); }
 
 	}
 
@@ -135,6 +135,7 @@ public class Listener implements org.bukkit.event.Listener, Miscellaneous
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void playerPlaceTrashBin( SignChangeEvent event ) {
 
@@ -162,7 +163,7 @@ public class Listener implements org.bukkit.event.Listener, Miscellaneous
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryInteract( InventoryClickEvent event ) {
-		if ( event.getInventory().getHolder() instanceof LostItems )
+		if ( event.getInventory().getHolder() instanceof ContainerAbstract )
 			event.setCancelled(true);
 	}
 }

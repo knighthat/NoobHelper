@@ -1,35 +1,143 @@
 package me.knighthat.plugin.Events.BreakAssistant;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import me.knighthat.NoobHelper;
+import me.knighthat.plugin.Events.Storage;
 import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.utils.PermissionChecker;
 
-public class BreakAssistant extends Storage
+public class BreakAssistant extends Storage implements PermissionChecker
 {
-	public BreakAssistant(Config config, BlockBreakEvent e) {
+	NoobHelper plugin;
+	Config config;
+	DeathChests deathChests;
 
-		this.config = config;
-		this.player = e.getPlayer();
+	Player player;
+	ItemStack inHand;
+	Boolean hungry, applyDamage;
 
-		if ( checkTool() & checkRequirements() )
-			assist(getAffiliation(e.getBlock(), config.get().getInt(path + "max_block")));
+	final String path = "break_assistant.";
+	int count = 0;
+
+	public BreakAssistant(NoobHelper plugin, Player player, Block starter) {
+		this.plugin = plugin;
+		this.config = plugin.config;
+		this.deathChests = plugin.deathChests;
+		this.player = player;
+		this.inHand = player.getInventory().getItemInMainHand();
+		this.hungry = isEnabled("food_consumption.enabled");
+		this.applyDamage = isEnabled("apply_damage");
+		super.starter = starter;
+		super.blocks.add(starter);
+	}
+
+	public BreakAssistant(NoobHelper plugin, BlockBreakEvent event) {
+		this(plugin, event.getPlayer(), event.getBlock());
+
+		if ( toolNotSupport() ) { return; }
+
+		if ( !checkRequirements() ) { return; }
+
+		List<Block> blocks = getAffiliation(new ArrayList<>());
+
+		if ( isEnabled("add_delay") ) {
+			new BukkitRunnable() {
+
+				int count;
+
+				@Override
+				public void run() {
+					if ( count < blocks.size() ) {
+						if ( !breakBlock(blocks.get(count), true) ) { cancel(); }
+						count++;
+					} else
+						cancel();
+				}
+			}.runTaskTimer(plugin, 0L, config.get().getLong(path.concat("delay")));
+		} else
+			for ( Block block : blocks )
+				if ( !breakBlock(block, false) ) { break; }
 
 	}
 
-	void assist( List<Block> blocks ) {
+	boolean breakBlock( Block block, Boolean isDelayed ) {
 
-		boolean addHungry = isEnabled(path + "food_consumption.enabled"), addDamage = isEnabled(path + "apply_damage");
+		if ( hungry )
 
-		for ( int i = 0 ; i < blocks.size() ; i++ ) {
+			if ( player.getFoodLevel() > 0 ) {
 
-			if ( addHungry & !addHungry(i) ) { break; }
+				if ( count % (1 / config.get().getDouble(path.concat("food_consumption.rate"))) == 0 ) {
+					int random = new Random().nextInt(100) + 1,
+							level = inHand.getEnchantmentLevel(Enchantment.DURABILITY) + 1;
 
-			if ( addDamage & !addDamage() ) { break; }
+					if ( random <= (100 / level) ) { player.setFoodLevel(player.getFoodLevel() - 1); }
+				}
+			} else
+				return false;
 
-			blocks.get(i).breakNaturally(player.getInventory().getItemInMainHand());
+		if ( applyDamage ) {
+
+			Damageable itemMeta = (Damageable) this.inHand.getItemMeta();
+
+			if ( inHand.getType().getMaxDurability() - itemMeta.getDamage() <= 1 )
+				return false;
+
+			itemMeta.setDamage(itemMeta.getDamage() + 1);
+			inHand.setItemMeta((ItemMeta) itemMeta);
 		}
+		block.breakNaturally(inHand);
+
+		if ( plugin.checkVersion(16.5) & isDelayed & isEnabled("add_effect") ) {
+			Location loc = starter.getLocation();
+			block.getWorld().playSound(loc, block.getBlockData().getSoundGroup().getBreakSound(), 1, 1);
+			loc.getWorld().spawnParticle(Particle.BLOCK_CRACK, loc, 30, .1, .1, .1, block.getBlockData());
+		}
+
+		count++;
+
+		return true;
 	}
+
+	boolean toolNotSupport() {
+		String material = this.inHand.getType().name();
+		return !material.endsWith("_PICKAXE") & !material.endsWith("_SHOVEL") & !material.endsWith("_AXE");
+	}
+
+	boolean isEnabled( String path ) { return config.get().getBoolean(this.path.concat(path)); }
+
+	boolean isRequired( String path ) { return isEnabled("requirements." + path); }
+
+	boolean checkRequirements() {
+
+		if ( isRequired("sneaking") & !player.isSneaking() )
+			return false;
+
+		if ( isRequired("permission") & !checkPermission(player, config, "break_assistant") )
+			return false;
+
+		if ( isRequired("survival_mode") & !player.getGameMode().equals(GameMode.SURVIVAL) )
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int getMaxBlock() { return config.get().getInt(this.path.concat("max_block")); }
+
 }

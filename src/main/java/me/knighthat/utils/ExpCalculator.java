@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Events.DeathChest;
+package me.knighthat.utils;
 
 import org.bukkit.entity.Player;
 

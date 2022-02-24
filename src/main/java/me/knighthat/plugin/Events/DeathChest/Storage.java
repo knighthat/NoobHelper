@@ -13,11 +13,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.utils.ExpCalculator;
 
-public abstract class Storage implements me.knighthat.plugin.Events.Storage, ExpCalculator
+public abstract class Storage implements ExpCalculator
 {
 
 	NoobHelper plugin;
@@ -75,5 +76,10 @@ public abstract class Storage implements me.knighthat.plugin.Events.Storage, Exp
 		deathChests.get().set(header.concat("." + generateID() + "." + path), value);
 	}
 
-	public String generateID() { return generateID("", location); }
+	String generateID() {
+
+		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
+
+		return path.concat("" + x + y + z);
+	}
 }

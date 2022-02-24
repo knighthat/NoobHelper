@@ -1,71 +1,34 @@
 package me.knighthat.plugin.Events;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.type.Leaves;
 
-import me.knighthat.plugin.Miscellaneous;
-
-public interface Storage extends Miscellaneous
+public abstract class Storage
 {
+	protected Block starter;
+	protected List<Block> blocks = new ArrayList<>();
 
-	default List<Block> getAffiliation( Block key, int maxBlocks ) {
+	public abstract int getMaxBlock();
 
-		maxBlocks = maxBlocks == 0 ? 200 : maxBlocks;
+	protected List<Block> getAffiliation( List<Block> oldBlocks ) {
 
-		return getAffiliation(key, initiation(key), maxBlocks);
-	}
+		if ( this.blocks.size() <= oldBlocks.size() )
+			return this.blocks;
 
-	default List<Block> getAffiliation( Block key, Map<Block, List<Block>> map, int maxBlocks ) {
+		List<Block> result = new ArrayList<>(this.blocks);
+		result.stream().filter(block -> !oldBlocks.contains(block)).forEach(block -> {
 
-		List<Block> oldBLocks = new ArrayList<Block>(map.get(key));
-
-		if ( !(key.getBlockData() instanceof Leaves) & oldBLocks.size() >= maxBlocks ) { return oldBLocks; }
-
-		oldBLocks.forEach(block -> {
-
-			for ( Block b : getFacings(block) )
-				if ( !map.get(key).contains(b) ) { map.get(key).add(b); }
-
+			for ( BlockFace blockFace : BlockFace.values() ) {
+				Block faceWith = block.getRelative(blockFace);
+				if ( this.blocks.size() < getMaxBlock() )
+					if ( faceWith.getType().equals(starter.getType()) & !this.blocks.contains(faceWith) )
+						this.blocks.add(faceWith);
+			}
 		});
-
-		if ( map.get(key).size() > oldBLocks.size() ) { getAffiliation(key, map, maxBlocks); }
-
-		return map.get(key);
-	}
-
-	private boolean isSimilar( Block block1, Block block2 ) { return block1.getType().equals(block2.getType()); }
-
-	private List<Block> getFacings( Block block ) {
-
-		List<Block> blocks = new ArrayList<>();
-
-		for ( BlockFace face : BlockFace.values() )
-			if ( isSimilar(block, block.getRelative(face)) )
-				blocks.add(block.getRelative(face));
-
-		return blocks;
-
-	}
-
-	private Map<Block, List<Block>> initiation( Block key ) {
-		Map<Block, List<Block>> map = new HashMap<>();
-		map.put(key, new ArrayList<>());
-		map.get(key).add(key);
-		return map;
-	}
-
-	default String generateID( final String path, Location location ) {
-
-		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
-
-		return path.concat("" + x + y + z);
+		return getAffiliation(result);
 	}
 
 }
