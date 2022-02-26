@@ -78,8 +78,10 @@ public abstract class Storage implements ExpCalculator
 
 	String generateID() {
 
-		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
+		int x = location.getBlockX();
+		int y = location.getBlockY();
+		int z = location.getBlockZ();
 
-		return path.concat("" + x + y + z);
+		return "" + x + y + z;
 	}
 }

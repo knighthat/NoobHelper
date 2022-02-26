@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.knighthat.NoobHelper</groupId>
   <artifactId>NoobHelperPlugin</artifactId>
-  <version>0.6.2</version>
+  <version>0.6.3</version>
   <name>Noob Helper</name>
   <description>Integrated many helpful features to make game easier to play	</description>
 
@@ -38,15 +38,15 @@
 	<dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.14-R0.1-20190513.041059-17</version>
+      <version>1.14-R0.1-SNAPSHOT</version>
     </dependency>
 
-	<dependency>
+    <dependency>
       <groupId>com.destroystokyo.paper</groupId>
       <artifactId>paper-api</artifactId>
-      <version>1.16.5-R0.1-SNAPSHOT</version>
-      <scope>provided</scope>
+      <version>1.16.4-R0.1-SNAPSHOT</version>
     </dependency>
 
   </dependencies>
+
 </project>

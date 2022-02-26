@@ -1,13 +1,14 @@
 package me.knighthat.plugin.Commands;
 
+import java.util.logging.Level;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.knighthat.NoobHelper;
-import me.knighthat.utils.ConsoleSender;
 import me.knighthat.utils.PermissionChecker;
 
-public class Reload implements PermissionChecker, ConsoleSender
+public class Reload implements PermissionChecker
 {
 
 	public Reload(NoobHelper plugin, CommandSender sender, Boolean isPlayer) {
@@ -28,6 +29,6 @@ public class Reload implements PermissionChecker, ConsoleSender
 
 	private void sendConsoleMessage( NoobHelper plugin, Player player ) {
 		String message = plugin.config.getString("player_reload").replaceAll("%player%", player.getName());
-		sendWarning(plugin, message);
+		plugin.getLogger().log(Level.WARNING, message);
 	}
 }

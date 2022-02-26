@@ -3,9 +3,8 @@ package me.knighthat.plugin.Files;
 import java.io.File;
 
 import me.knighthat.NoobHelper;
-import me.knighthat.utils.ConsoleSender;
 
-public class Config extends Files implements ConsoleSender
+public class Config extends Files
 {
 
 	final String fileName = "config.yml";
@@ -67,4 +66,6 @@ public class Config extends Files implements ConsoleSender
 
 		return prefix.concat(result);
 	}
+
+	void sendMessage( String message ) { plugin.getServer().getConsoleSender().sendMessage(addColor(message)); }
 }

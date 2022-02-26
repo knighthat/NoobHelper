@@ -135,7 +135,6 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void playerPlaceTrashBin( SignChangeEvent event ) {
 

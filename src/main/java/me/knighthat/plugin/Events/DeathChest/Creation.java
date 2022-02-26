@@ -10,10 +10,9 @@ import me.knighthat.NoobHelper;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 
-@SuppressWarnings("deprecation")
 public class Creation extends Storage
 {
 
@@ -47,11 +46,17 @@ public class Creation extends Storage
 		final String input = config.getString("death_chest.content_message", true);
 		int $ = input.indexOf("%") + 1;
 
-		ComponentBuilder builder = new ComponentBuilder(input.substring(0, $ - 1));
-		builder.append(createButton(input.substring($, input.indexOf("%", $))));
-		builder.append(createLegacyString(input.substring(input.indexOf("%", $) + 1, input.length())));
+		String front = input.substring(0, $ - 1);
+		String button = input.substring($, input.indexOf("%", $));
+		String end = input.substring(input.indexOf("%", $) + 1, input.length());
 
-		player.sendMessage(builder.create());
+		TextComponent frontComp = toComp(front, null, null);
+		TextComponent buttonComp = createButton(button);
+		TextComponent endComp = toComp(end, null, null);
+
+		ComponentBuilder builder = new ComponentBuilder(frontComp);
+
+		player.sendMessage(builder.append(buttonComp).append(endComp).create());
 	}
 
 	TextComponent createButton( String input ) {
@@ -66,28 +71,31 @@ public class Creation extends Storage
 			if ( item.getItemMeta().hasDisplayName() )
 				itemName = item.getItemMeta().getDisplayName();
 
-			lostItems = lostItems.concat(itemName + (items.hasNext() ? "\n" : ""));
-		}
-		ComponentBuilder hoverBuilder = new ComponentBuilder(lostItems);
-		HoverEvent hoverEvent = new HoverEvent(Action.SHOW_TEXT, hoverBuilder.create());
+			if ( items.hasNext() )
+				itemName += "\n";
 
-//		String path = playerName + "_" + uuid + "." + player.getWorld().getName();
+			lostItems = lostItems.concat(itemName);
+		}
+
+		HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(lostItems));
+
 		final String cmd = "/noobhelper lostitems " + generateID();
 		ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.RUN_COMMAND, cmd);
 
+		return toComp(input, hoverEvent, clickEvent);
+	}
+
+	TextComponent toComp( String input, HoverEvent hoverEvent, ClickEvent clickEvent ) {
+
 		TextComponent result = new TextComponent(input);
-		result.setHoverEvent(hoverEvent);
-		result.setClickEvent(clickEvent);
+
+		if ( hoverEvent != null )
+			result.setHoverEvent(hoverEvent);
+
+		if ( clickEvent != null )
+			result.setClickEvent(clickEvent);
 
 		return result;
 	}
 
-	TextComponent createLegacyString( String input ) {
-
-		TextComponent result = new TextComponent(input);
-		result.setHoverEvent(new HoverEvent(Action.SHOW_ENTITY, new ComponentBuilder("").create()));
-		result.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, null));
-
-		return result;
-	}
 }

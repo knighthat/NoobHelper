@@ -185,7 +185,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.6.2
+version: 0.6.3
 
 prefix: "&7[&aNoobHelper&7]"
 
