@@ -1,8 +1,10 @@
 package me.knighthat.plugin.Events;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -13,6 +15,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.block.data.type.Leaves;
 import org.bukkit.block.data.type.Sign;
+import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -22,16 +25,21 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Commands.ContainerAbstract;
 import me.knighthat.plugin.Events.BreakAssistant.BreakAssistant;
-import me.knighthat.utils.PermissionChecker;
+import me.knighthat.plugin.Events.TrashBin.ConfirmMenu;
+import me.knighthat.plugin.utils.MenuBase;
+import me.knighthat.plugin.utils.PermissionChecker;
 
 public class Listener implements org.bukkit.event.Listener, PermissionChecker
 {
@@ -39,6 +47,8 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 	NoobHelper plugin;
 
 	private List<Location> decayLocation = new ArrayList<>();
+
+	public static Map<Player, List<ItemStack>> itemsForReturn = new HashMap<>();
 
 	public Listener(NoobHelper plugin) { this.plugin = plugin; }
 
@@ -65,13 +75,13 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 		BlockData blockData = block.getBlockData();
 		BlockState blockState = block.getState();
 
-		if ( isEnabled("smart_harvesting.enabled") & blockData instanceof Ageable )
-			if ( checkPerm(event.getPlayer(), "smart_harvesting") ) {
-				new SmartHarvesting(block, isEnabled("smart_harvesting.sound"));
+		if ( isEnabled("smart_harvest.enabled") & blockData instanceof Ageable )
+			if ( checkPerm(event.getPlayer(), "smart_harvest") ) {
+				new SmartHarvesting(block, event.getPlayer(), plugin.config);
 				return;
 			}
 
-		if ( isEnabled("trash_bin.enabled") & blockData instanceof Sign ) {
+		if ( isEnabled("trash_bin.enabled") & (blockData instanceof Sign | blockData instanceof WallSign) ) {
 			new me.knighthat.plugin.Events.TrashBin.Use(plugin, event);
 			return;
 		}
@@ -92,7 +102,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 			return;
 		}
 
-		if ( blockData instanceof Sign ) {
+		if ( blockData instanceof Sign | blockData instanceof WallSign ) {
 			new me.knighthat.plugin.Events.TrashBin.Break(plugin, event);
 			return;
 		}
@@ -162,7 +172,81 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onInventoryInteract( InventoryClickEvent event ) {
-		if ( event.getInventory().getHolder() instanceof ContainerAbstract )
-			event.setCancelled(true);
+
+		InventoryHolder holder = event.getInventory().getHolder();
+
+		if ( holder instanceof ContainerAbstract ) { event.setCancelled(true); }
+
+		if ( holder instanceof MenuBase )
+			if ( event.getView().getTitle().equals(plugin.config.getString("trash_bin.confirmation_menu.title")) ) {
+
+				event.setCancelled(true);
+
+				Player player = (Player) event.getWhoClicked();
+
+				ItemMeta iMeta = event.getCurrentItem().getItemMeta();
+
+				switch ( iMeta.getPersistentDataContainer().get(plugin.NamespacedKey, plugin.dataType) ) {
+					case "accept" :
+
+						itemsForReturn.remove(player);
+						player.sendMessage(plugin.config.getString("trash_bin.delete_message", true));
+
+					case "decline" :
+
+						if ( itemsForReturn.containsKey(player) )
+							for ( ItemStack item : itemsForReturn.get(player) )
+								player.getInventory().addItem(item);
+
+						itemsForReturn.remove(player);
+
+						player.closeInventory();
+					break;
+
+					default :
+					break;
+				}
+			}
+	}
+
+	@EventHandler
+	public void onInventoryClose( InventoryCloseEvent event ) {
+
+		String title = event.getView().getTitle();
+
+		if ( title.equals(plugin.config.getString("trash_bin.confirmation_menu.title")) ) {
+
+			Player player = (Player) event.getPlayer();
+
+			if ( itemsForReturn.containsKey(player) )
+				for ( ItemStack item : itemsForReturn.get(player) )
+					player.getInventory().addItem(item);
+
+			itemsForReturn.remove(player);
+		}
+
+		if ( title.equals(plugin.config.getString("trash_bin.title")) ) {
+
+			List<ItemStack> contents = new ArrayList<>();
+			for ( ItemStack item : event.getInventory().getContents() )
+				if ( item != null )
+					contents.add(item);
+
+			if ( !contents.isEmpty() ) {
+
+				Player player = (Player) event.getPlayer();
+
+				ConfirmMenu menu = new ConfirmMenu(plugin, player, contents);
+
+				new BukkitRunnable() {
+
+					@Override
+					public void run() {
+						player.openInventory(menu.getInventory());
+						player.updateInventory();
+					}
+				}.runTaskLater(plugin, 1L);
+			}
+		}
 	}
 }

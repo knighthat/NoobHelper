@@ -1,8 +1,8 @@
 name: NoobHelper
 author: KnightHat
 api-version: 1.13
-version: 0.6.3
-main: me.knighthat.NoobHelper
+version: 0.7
+main: me.knighthat.plugin.NoobHelper
 
 commands:
   noobhelper:

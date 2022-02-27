@@ -12,7 +12,7 @@ import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public class TrashBins extends Files
 {

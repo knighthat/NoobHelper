@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public class Manager implements CommandExecutor
 {

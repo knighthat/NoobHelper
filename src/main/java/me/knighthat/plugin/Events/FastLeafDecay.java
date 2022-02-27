@@ -11,7 +11,7 @@ import org.bukkit.block.data.type.Leaves;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 
 public class FastLeafDecay extends Storage

@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public class DeathChests extends Files
 {

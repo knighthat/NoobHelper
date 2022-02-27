@@ -1,7 +1,9 @@
-package me.knighthat;
+package me.knighthat.plugin;
 
 import java.io.File;
 
+import org.bukkit.NamespacedKey;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.knighthat.plugin.Commands.Manager;
@@ -9,6 +11,7 @@ import me.knighthat.plugin.Events.Listener;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
 import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.plugin.utils.UpdateChecker;
 
 public class NoobHelper extends JavaPlugin
 {
@@ -16,6 +19,9 @@ public class NoobHelper extends JavaPlugin
 	public Config config = new Config(this);
 	public TrashBins trashBins = new TrashBins(this);
 	public DeathChests deathChests = new DeathChests(this);
+
+	public final NamespacedKey NamespacedKey = new NamespacedKey(this, getName());
+	public final PersistentDataType<String, String> dataType = PersistentDataType.STRING;
 
 	@Override
 	public void onEnable() {
@@ -25,6 +31,8 @@ public class NoobHelper extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
 
 		checkFiles();
+
+		new UpdateChecker(this);
 	}
 
 	void checkFiles() {

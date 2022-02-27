@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public abstract class FileAbstract
 {
@@ -24,7 +24,13 @@ public abstract class FileAbstract
 		reload();
 	}
 
-	public FileConfiguration get() { return fileConfig; }
+	public FileConfiguration get() {
+
+		if ( fileConfig == null )
+			reload();
+
+		return fileConfig;
+	}
 
 	public void save() {
 		try {

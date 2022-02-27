@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public class Retrieval extends Storage
 {

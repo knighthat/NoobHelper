@@ -1,4 +1,4 @@
-package me.knighthat.utils;
+package me.knighthat.plugin.utils;
 
 import net.md_5.bungee.api.ChatColor;
 

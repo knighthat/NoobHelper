@@ -5,8 +5,8 @@ import java.util.logging.Level;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.NoobHelper;
-import me.knighthat.utils.PermissionChecker;
+import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.utils.PermissionChecker;
 
 public class Reload implements PermissionChecker
 {

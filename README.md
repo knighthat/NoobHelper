@@ -2,6 +2,9 @@
     <a href="https://paypal.me/TnKnightN">
       <img src="https://i.ibb.co/nrWwjZq/Buy-Me-Coffe.png" alt="Buy-Me-Coffe" border="0">
     </a>
+    <a href="https://github.com/knighthat/NoobHelper/wiki">
+      <img src="https://i.ibb.co/YjyXVYG/Wiki.png" alt="Wiki" border="0">
+    </a>
 </p>
 
 ---
@@ -154,7 +157,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 ## `noobhelper.equipment_replacement`
 - Requried to replace tool when it breaks.
 
-## `noobhelper.smart_harvesting`
+## `noobhelper.smart_harvest`
 - Required to be able to harvest crops.
 
 ## `noobhelper.break_assistant`
@@ -185,7 +188,10 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.6.3
+version: 0.7
+# If true, check for update every 6 hours
+# If false, only check once at startup
+update_checker: true
 
 prefix: "&7[&aNoobHelper&7]"
 
@@ -210,9 +216,15 @@ death_chest:
   no_previous_dead_location: "&eLooks like you're immortal, m8!"
 
 
-smart_harvesting:
+smart_harvest:
   enabled: true
-  sound: true   
+  sound: true
+  # Allow certain tools to harvest crops
+  # STONE_SWORD if you want player to harvest with sword made out of stone
+  # HOE only if you don't want to limit the materials.
+  special_tools:
+    - HOE
+    - STONE_SWORD
 
 
 break_assistant:
@@ -254,11 +266,21 @@ trash_bin:
   enabled: true
   title: "&4&lWARNING: &eAll items will be deleted!!!"
   message: "You've created a trash bin!"
+  delete_message: "&cAll item(s) deleted!"
   lines:
     - "&c&l[Trash Bin]"
     - ""
     - ""
     - "&aRight click to use"
+  confirmation_menu:
+    title: "&cAll items below will be removed"
+    represent_item: CHEST
+    represent_name: "&bPlease confirm all items below!"
+    border_material: BLACK_STAINED_GLASS_PANE
+    accept_material: GREEN_STAINED_GLASS_PANE
+    accept_name: "&aAccept"
+    decline_material: RED_STAINED_GLASS_PANE
+    decline_name: "&cDecline"
   
 
 #

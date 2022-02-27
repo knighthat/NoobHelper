@@ -4,13 +4,14 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.TrashBins;
-import me.knighthat.utils.PermissionChecker;
+import me.knighthat.plugin.utils.PermissionChecker;
 
 public abstract class Storage implements PermissionChecker
 {
+	NoobHelper plugin;
 	Config config;
 	TrashBins trashBins;
 
@@ -22,6 +23,7 @@ public abstract class Storage implements PermissionChecker
 
 	void register( NoobHelper plugin, Player player, Block block ) {
 		this.player = player;
+		this.plugin = plugin;
 		this.config = plugin.config;
 		this.trashBins = plugin.trashBins;
 		this.block = block;

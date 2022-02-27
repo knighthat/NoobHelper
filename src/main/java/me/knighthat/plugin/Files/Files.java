@@ -3,7 +3,7 @@ package me.knighthat.plugin.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.knighthat.utils.TextModification;
+import me.knighthat.plugin.utils.TextModification;
 
 public abstract class Files extends FileAbstract implements TextModification
 {

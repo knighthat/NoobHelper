@@ -2,7 +2,7 @@ package me.knighthat.plugin.Files;
 
 import java.io.File;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
 public class Config extends Files
 {

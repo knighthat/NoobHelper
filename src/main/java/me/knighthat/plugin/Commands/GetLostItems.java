@@ -14,7 +14,7 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
 
@@ -30,7 +30,7 @@ public class GetLostItems implements InventoryHolder
 	String playerPath;
 	Boolean hasID;
 	String path;
-	Set<String> sections;
+	Set<String> sections = Set.of();
 
 	@Override
 	public Inventory getInventory() { return null; }
@@ -46,7 +46,7 @@ public class GetLostItems implements InventoryHolder
 
 		if ( hasID ) {
 			this.path = playerPath + "." + id;
-		} else
+		} else if ( deathChests.get().contains(playerPath) )
 			this.sections = deathChests.get().getConfigurationSection(playerPath).getKeys(false);
 	}
 

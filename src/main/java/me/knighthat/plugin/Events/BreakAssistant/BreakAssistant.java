@@ -16,11 +16,11 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Events.Storage;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
-import me.knighthat.utils.PermissionChecker;
+import me.knighthat.plugin.utils.PermissionChecker;
 
 public class BreakAssistant extends Storage implements PermissionChecker
 {

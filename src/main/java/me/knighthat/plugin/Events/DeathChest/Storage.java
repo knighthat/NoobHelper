@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
-import me.knighthat.utils.ExpCalculator;
+import me.knighthat.plugin.utils.ExpCalculator;
 
 public abstract class Storage implements ExpCalculator
 {

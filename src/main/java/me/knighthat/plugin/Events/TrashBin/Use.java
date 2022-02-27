@@ -1,13 +1,14 @@
 package me.knighthat.plugin.Events.TrashBin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 
-import me.knighthat.NoobHelper;
+import me.knighthat.plugin.NoobHelper;
 
-public class Use extends Storage
+public class Use extends Storage implements Listener
 {
 
 	public Use(NoobHelper plugin, PlayerInteractEvent e) {
@@ -18,10 +19,8 @@ public class Use extends Storage
 
 		if ( !checkPermission("use") ) { return; }
 
-		final String title = config.getString(path.concat("title"), false);
-
-		Inventory gui = Bukkit.createInventory(player, InventoryType.CHEST, title);
-
-		player.openInventory(gui);
+		String inventoryName = config.getString(path.concat("title"));
+		Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, inventoryName);
+		player.openInventory(inventory);
 	}
 }
