@@ -15,7 +15,7 @@ public interface PermissionChecker extends TextModification
 
 		if ( !permission.startsWith("noobhelper.") ) { permission = "noobhelper." + permission; }
 
-		final String message = config.getString("no_permission", true).replace("%perm%", permission);
+		final String message = config.getString("no_permission", true, player, null).replace("%perm%", permission);
 
 		if ( !player.hasPermission(permission) ) {
 

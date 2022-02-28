@@ -19,7 +19,7 @@ public class Place extends Storage
 			e.setLine(line, config.get().getStringList(path.concat("lines")).get(line));
 
 		addData();
-		player.sendMessage(config.getString(path.concat("message"), true));
+		player.sendMessage(config.getString(path.concat("message"), true, player, null));
 	}
 
 }

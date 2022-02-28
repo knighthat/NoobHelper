@@ -1,8 +1,7 @@
 package me.knighthat.plugin.Commands;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -30,7 +29,7 @@ public class GetLostItems implements InventoryHolder
 	String playerPath;
 	Boolean hasID;
 	String path;
-	Set<String> sections = Set.of();
+	List<String> sections = new ArrayList<>();
 
 	@Override
 	public Inventory getInventory() { return null; }
@@ -47,10 +46,10 @@ public class GetLostItems implements InventoryHolder
 		if ( hasID ) {
 			this.path = playerPath + "." + id;
 		} else if ( deathChests.get().contains(playerPath) )
-			this.sections = deathChests.get().getConfigurationSection(playerPath).getKeys(false);
+			this.sections = deathChests.getSections(playerPath, false);
 	}
 
-	String configGet( String path ) { return config.getString(path, true); }
+	String configGet( String path, Player player ) { return config.getString(path, true, player, null); }
 
 	public GetLostItems(NoobHelper plugin, Player player, String id) {
 
@@ -58,63 +57,75 @@ public class GetLostItems implements InventoryHolder
 
 		if ( !deathChests.get().contains(path) ) {
 
-			player.sendMessage(configGet("death_chest.container_not_exist"));
+			player.sendMessage(configGet("death_chest.container_not_exist", null));
 			return;
 		}
 
-		new ContainerAbstract(player) {
+		new ContainerAbstract() {
 
 			@Override
 			public String getTitle() {
 
-				String title = config.getString("death_chest.container_title"),
-						x = deathChests.getString(path.concat(".X")), y = deathChests.getString(path.concat(".Y")),
-						z = deathChests.getString(path.concat(".Z"));
+				String title = config.getString("death_chest.container_title");
+				String x = deathChests.getString(path.concat(".X"));
+				String y = deathChests.getString(path.concat(".Y"));
+				String z = deathChests.getString(path.concat(".Z"));
+
 				title = title.replace("%x%", x).replace("%y%", y).replace("%z%", z);
 				title = title.replace("%player%", player.getName()).replace("%display_name%", player.getDisplayName());
+
 				return title;
 			}
 
 			@Override
 			public void setContent() {
+
 				for ( String stringSlot : deathChests.get().getConfigurationSection(path.concat(".items"))
 						.getKeys(false) ) {
+
 					int slot = Integer.parseInt(stringSlot);
+
 					if ( slot >= 36 ) { slot += 2; }
+
 					getInventory().setItem(slot, deathChests.get().getItemStack(path.concat(".items." + stringSlot)));
 				}
+
 				ItemStack exp = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				ItemMeta expMeta = exp.getItemMeta();
 				String expName = config.getString("death_chest.exp_bottle_name");
 				expName = expName.replace("%exp%", deathChests.getString(path.concat(".Exp")));
 				expMeta.setDisplayName(expName);
 				exp.setItemMeta(expMeta);
+
 				getInventory().setItem(49, exp);
 			}
-		}.openInventory();
+		}.openInventory(player);
 	}
 
 	public GetLostItems(NoobHelper plugin, Player player) {
 
 		this(plugin.config, plugin.deathChests, player, player.getLocation(), new String());
 
-		if ( sections == null | sections.isEmpty() ) {
+		if ( sections.isEmpty() ) {
 
-			player.sendMessage(configGet("death_chest.no_previous_dead_location"));
+			player.sendMessage(configGet("death_chest.no_previous_dead_location", player));
 			return;
 		}
 
-		Map<Double, String> distances = new HashMap<>();
-
+		SortedMap<Double, String> reorder = new TreeMap<>();
 		for ( String section : sections ) {
+
 			String path = playerPath.concat("." + section);
-			int x = deathChests.get().getInt(path.concat(".X")), y = deathChests.get().getInt(path.concat(".Y")),
-					z = deathChests.get().getInt(path.concat(".Z"));
+			int x = deathChests.get().getInt(path.concat(".X"));
+			int y = deathChests.get().getInt(path.concat(".Y"));
+			int z = deathChests.get().getInt(path.concat(".Z"));
+
 			Location location = new Location(player.getWorld(), x, y, z);
-			distances.put(location.distance(player.getLocation()), section);
+
+			reorder.put(location.distance(player.getLocation()), section);
 		}
-		SortedMap<Double, String> reorder = new TreeMap<>(distances);
-		new GetLostItems(plugin, player, distances.get(reorder.firstKey()));
+
+		new GetLostItems(plugin, player, reorder.get(reorder.firstKey()));
 	}
 
 }

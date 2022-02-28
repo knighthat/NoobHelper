@@ -2,6 +2,8 @@ package me.knighthat.plugin.Files;
 
 import java.io.File;
 
+import org.bukkit.entity.Player;
+
 import me.knighthat.plugin.NoobHelper;
 
 public class Config extends Files
@@ -43,6 +45,8 @@ public class Config extends Files
 		sendMessage("&aYou can find old one under name " + oldFile.getName());
 	}
 
+	void sendMessage( String message ) { plugin.getServer().getConsoleSender().sendMessage(addColor(message)); }
+
 	File generateFileName() {
 
 		String copies = (fileNumber == 0 ? "" : " (" + fileNumber + ")").concat(".old");
@@ -59,13 +63,17 @@ public class Config extends Files
 		return newFile;
 	}
 
-	public String getString( String path, Boolean addPrefix ) {
+	public String getString( String path, Boolean addPrefix, Player player, String[] location ) {
 
-		final String prefix = addPrefix ? super.getString("prefix") : "";
-		final String result = super.getString(path);
+		String prefix = addPrefix ? super.getString("prefix") : "";
+		String result = super.getString(path);
+
+		if ( player != null )
+			result = result.replace("%player%", player.getName()).replace("%display%", player.getDisplayName());
+
+		if ( location != null )
+			result = result.replace("%x%", location[0]).replace("%y%", location[1]).replace("%z%", location[2]);
 
 		return prefix.concat(result);
 	}
-
-	void sendMessage( String message ) { plugin.getServer().getConsoleSender().sendMessage(addColor(message)); }
 }

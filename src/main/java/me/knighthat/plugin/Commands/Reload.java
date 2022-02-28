@@ -20,7 +20,7 @@ public class Reload implements PermissionChecker
 		plugin.trashBins.reload();
 		plugin.deathChests.reload();
 
-		sender.sendMessage(plugin.config.getString("reload", true));
+		sender.sendMessage(plugin.config.getString("reload", true, null, null));
 
 		if ( isPlayer ) { sendConsoleMessage(plugin, (Player) sender); }
 

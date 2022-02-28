@@ -190,7 +190,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 					case "accept" :
 
 						itemsForReturn.remove(player);
-						player.sendMessage(plugin.config.getString("trash_bin.delete_message", true));
+						player.sendMessage(plugin.config.getString("trash_bin.delete_message", true, null, null));
 
 					case "decline" :
 

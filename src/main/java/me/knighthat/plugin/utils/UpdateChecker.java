@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -65,17 +66,9 @@ public class UpdateChecker
 
 	}
 
-	void warning( String msg ) {
+	void sendMessage( Level level, String msg ) { Bukkit.getLogger().log(level, "[NoobHelper] " + msg); }
 
-		String prefix = "[NoobHelper] ";
-		Bukkit.getLogger().warning(prefix + msg);
+	void warning( String msg ) { sendMessage(Level.WARNING, msg); }
 
-	}
-
-	void error( String msg ) {
-
-		String prefix = "[NoobHelper] ";
-		Bukkit.getLogger().finest(prefix + msg);
-
-	}
+	void error( String msg ) { sendMessage(Level.FINE, msg); }
 }

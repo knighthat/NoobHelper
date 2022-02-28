@@ -32,18 +32,18 @@ public class Creation extends Storage
 
 	void sendDeathLocation() {
 
-		int x = location.getBlockX(), y = location.getBlockY(), z = location.getBlockZ();
-		String X = String.valueOf(x), Y = String.valueOf(y), Z = String.valueOf(z);
+		String x = String.valueOf(location.getBlockX());
+		String y = String.valueOf(location.getBlockY());
+		String z = String.valueOf(location.getBlockZ());
 
-		String msg = config.getString(path + "death_message", true);
-		msg = msg.replace("%x%", X).replace("%y%", Y).replace("%z%", Z);
+		String msg = config.getString(path + "death_message", true, player, new String[] { x, y, z });
 
 		player.sendMessage(msg);
 	}
 
 	void sendContents() {
 
-		final String input = config.getString("death_chest.content_message", true);
+		final String input = config.getString("death_chest.content_message", true, player, null);
 		int $ = input.indexOf("%") + 1;
 
 		String front = input.substring(0, $ - 1);

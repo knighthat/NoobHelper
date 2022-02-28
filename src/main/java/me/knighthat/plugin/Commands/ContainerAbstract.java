@@ -10,8 +10,6 @@ public abstract class ContainerAbstract implements InventoryHolder
 
 	Inventory inventory;
 
-	Player player;
-
 	@Override
 	public Inventory getInventory() { return inventory; }
 
@@ -19,11 +17,10 @@ public abstract class ContainerAbstract implements InventoryHolder
 
 	public abstract void setContent();
 
-	public ContainerAbstract(Player player) {
-		this.player = player;
+	public ContainerAbstract() {
 		inventory = Bukkit.createInventory(this, 54, getTitle());
 		setContent();
 	}
 
-	public void openInventory() { player.openInventory(inventory); }
+	public void openInventory( Player player ) { player.openInventory(inventory); }
 }

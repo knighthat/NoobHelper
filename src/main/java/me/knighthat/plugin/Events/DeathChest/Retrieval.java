@@ -52,7 +52,11 @@ public class Retrieval extends Storage
 					}
 
 					final String path = this.path + (isOwner ? "retrieved" : "not_your_chest");
-					player.sendMessage(config.getString(path, true));
+					String x = deathChests.getString(pSection.concat(".X"));
+					String y = deathChests.getString(pSection.concat(".Y"));
+					String z = deathChests.getString(pSection.concat(".Z"));
+
+					player.sendMessage(config.getString(path, true, player, new String[] { x, y, z }));
 				}
 
 	}
