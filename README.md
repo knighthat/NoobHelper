@@ -188,7 +188,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.7
+version: 0.7.2
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true

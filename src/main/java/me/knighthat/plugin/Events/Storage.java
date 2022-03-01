@@ -15,8 +15,7 @@ public abstract class Storage
 
 	protected List<Block> getAffiliation( List<Block> oldBlocks ) {
 
-		if ( this.blocks.size() <= oldBlocks.size() )
-			return this.blocks;
+		if ( this.blocks.size() <= oldBlocks.size() ) { return this.blocks; }
 
 		List<Block> result = new ArrayList<>(this.blocks);
 		result.stream().filter(block -> !oldBlocks.contains(block)).forEach(block -> {

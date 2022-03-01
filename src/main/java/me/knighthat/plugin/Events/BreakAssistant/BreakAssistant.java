@@ -95,11 +95,17 @@ public class BreakAssistant extends Storage implements PermissionChecker
 
 			Damageable itemMeta = (Damageable) this.inHand.getItemMeta();
 
-			if ( inHand.getType().getMaxDurability() - itemMeta.getDamage() <= 1 )
-				return false;
+			int chance = (new Random()).nextInt(100) + 1;
+			int protecttion = 100 / (inHand.getEnchantmentLevel(Enchantment.DURABILITY) + 1);
 
-			itemMeta.setDamage(itemMeta.getDamage() + 1);
-			inHand.setItemMeta((ItemMeta) itemMeta);
+			if ( chance <= protecttion ) {
+
+				if ( inHand.getType().getMaxDurability() - itemMeta.getDamage() <= 1 )
+					return false;
+
+				itemMeta.setDamage(itemMeta.getDamage() + 1);
+				inHand.setItemMeta((ItemMeta) itemMeta);
+			}
 		}
 		block.breakNaturally(inHand);
 

@@ -39,8 +39,7 @@ public class NoobHelper extends JavaPlugin
 
 		File oldFile = new File(getDataFolder(), "blockdata.yml");
 
-		if ( !oldFile.exists() )
-			return;
+		if ( !oldFile.exists() ) { return; }
 
 		trashBins.copyContent(oldFile);
 		trashBins.reload();
