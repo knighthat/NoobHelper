@@ -1,4 +1,4 @@
-version: 0.7.2
+version: 0.8
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true
@@ -11,7 +11,7 @@ equipment_replacement: true
 
 death_chest:
   enabled: true
-  death_message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
+  death_message: "&cLast death locaton &4&c&lX:%x% Y:%y% Z:%z%&r&c."
   not_your_chest: "&eThis death chest &4&lDOES NOT &ebelong to you!"
   retrieved: "&a&lCongrats! &rYou just successfully retrieved all your lost items."
   retrieval_sound: true
@@ -24,7 +24,14 @@ death_chest:
   container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
   exp_bottle_name: "&eExp: &a%exp%"
   no_previous_dead_location: "&eLooks like you're immortal, m8!"
-
+  delete_chest:
+    # How many seconds to wait before droping the command
+    countdown: 5
+    timeout_message: "&4Timeout! &cPlease try again."
+    missing_argument: "/noobhelper deletechest [id]"
+    confirm_message: "&fPlease type &6/noobhelper deletechest confirm &fin &c%sec% seconds &fto delete this chest."
+    chest_deleted: "&aA death chest at &c&lX:%x% Y:%y% Z:%z% &ahas been removed!"
+    
 
 smart_harvest:
   enabled: true

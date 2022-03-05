@@ -134,10 +134,14 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 ## `/noobhelper reload`
 
 - Reload plugin
-- Permission: **_noobhelper.command.reload_**
+- Permission: *_noobhelper.command.reload_*
 
 ## `/noobhelper lostitems`
 - See the nearest death chest
+
+## `/noobhelper deletechest [id]`
+- Wipes a death chest from existent
+- PermissionL *_noobhelper.command.delete_chest*
 
 ---
 
@@ -149,10 +153,13 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 
 
 ## `noobhelper.command.*`
-- Wildcard to use all commands that are available
+- Wildcard to use all commands that are available.
 
-## `noobhelper.command.[command]`
-- Required to execute command to open certain GUIs.
+## `noobhelper.command.delete_chest`
+- Required to delete a death chest.
+
+## `noobhelper.command.reload`
+- Required to execute reload command.
 
 ## `noobhelper.equipment_replacement`
 - Requried to replace tool when it breaks.
@@ -188,7 +195,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.7.2
+version: 0.8
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true
@@ -214,7 +221,14 @@ death_chest:
   container_title: "%player%'s inventory at &4&lX:%x% Y:%y% Z:%z%"
   exp_bottle_name: "&eExp: &a%exp%"
   no_previous_dead_location: "&eLooks like you're immortal, m8!"
-
+  delete_chest:
+    # How many seconds to wait before droping the command
+    countdown: 5
+    timeout_message: "&4Timeout! &cPlease try again."
+    missing_argument: "/noobhelper deletechest [id]"
+    confirm_message: "&fPlease type &6/noobhelper deletechest confirm &fin &c%sec% seconds &fto delete this chest."
+    chest_deleted: "&aA death chest at &c&lX:%x% Y:%y% Z:%z% &ahas been removed!"
+    
 
 smart_harvest:
   enabled: true

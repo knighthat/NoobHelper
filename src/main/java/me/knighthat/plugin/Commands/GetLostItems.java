@@ -80,15 +80,15 @@ public class GetLostItems implements InventoryHolder
 			@Override
 			public void setContent() {
 
-				for ( String stringSlot : deathChests.get().getConfigurationSection(path.concat(".items"))
-						.getKeys(false) ) {
+				if ( deathChests.get().contains(path.concat(".items")) )
+					for ( String stringSlot : deathChests.get().getConfigurationSection(path.concat(".items")).getKeys(false) ) {
 
-					int slot = Integer.parseInt(stringSlot);
+						int slot = Integer.parseInt(stringSlot);
 
-					if ( slot >= 36 ) { slot += 2; }
+						if ( slot >= 36 ) { slot += 2; }
 
-					getInventory().setItem(slot, deathChests.get().getItemStack(path.concat(".items." + stringSlot)));
-				}
+						getInventory().setItem(slot, deathChests.get().getItemStack(path.concat(".items." + stringSlot)));
+					}
 
 				ItemStack exp = new ItemStack(Material.EXPERIENCE_BOTTLE);
 				ItemMeta expMeta = exp.getItemMeta();

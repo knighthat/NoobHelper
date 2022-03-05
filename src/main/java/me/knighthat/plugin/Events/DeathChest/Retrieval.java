@@ -42,6 +42,11 @@ public class Retrieval extends Storage
 
 					pSection = pSection.concat("." + world.getName() + id);
 
+					final String path = this.path + (isOwner ? "retrieved" : "not_your_chest");
+					String x = deathChests.getString(pSection.concat(".X"));
+					String y = deathChests.getString(pSection.concat(".Y"));
+					String z = deathChests.getString(pSection.concat(".Z"));
+
 					if ( isOwner ) {
 
 						returnItems();
@@ -50,11 +55,6 @@ public class Retrieval extends Storage
 
 						removeData();
 					}
-
-					final String path = this.path + (isOwner ? "retrieved" : "not_your_chest");
-					String x = deathChests.getString(pSection.concat(".X"));
-					String y = deathChests.getString(pSection.concat(".Y"));
-					String z = deathChests.getString(pSection.concat(".Z"));
 
 					player.sendMessage(config.getString(path, true, player, new String[] { x, y, z }));
 				}
@@ -67,20 +67,21 @@ public class Retrieval extends Storage
 
 		player.giveExp(deathChests.get().getInt(pSection.concat(".Exp")));
 
-		for ( String path : deathChests.getSections(pSection.concat(".items"), false) ) {
+		if ( deathChests.get().contains(pSection.concat(".items")) )
+			for ( String path : deathChests.getSections(pSection.concat(".items"), false) ) {
 
-			int slot = Integer.parseInt(path);
-			ItemStack item = deathChests.get().getItemStack(pSection.concat(".items." + path));
+				int slot = Integer.parseInt(path);
+				ItemStack item = deathChests.get().getItemStack(pSection.concat(".items." + path));
 
-			if ( pInv.firstEmpty() >= 0 ) {
+				if ( pInv.firstEmpty() >= 0 ) {
 
-				if ( pInv.getItem(slot) != null ) {
-					pInv.addItem(item);
+					if ( pInv.getItem(slot) != null ) {
+						pInv.addItem(item);
+					} else
+						pInv.setItem(slot, item);
 				} else
-					pInv.setItem(slot, item);
-			} else
-				location.getWorld().dropItem(location, item);
-		}
+					location.getWorld().dropItem(location, item);
+			}
 		player.updateInventory();
 	}
 
@@ -98,7 +99,5 @@ public class Retrieval extends Storage
 			location.getWorld().playSound(location, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 	}
 
-	ItemStack getItemStack( String path ) {
-		return deathChests.get().getItemStack(generateID().concat(".items." + path));
-	}
+	ItemStack getItemStack( String path ) { return deathChests.get().getItemStack(generateID().concat(".items." + path)); }
 }

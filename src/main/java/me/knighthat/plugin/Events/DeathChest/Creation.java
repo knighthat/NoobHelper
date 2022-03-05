@@ -20,7 +20,7 @@ public class Creation extends Storage
 
 		initialization(plugin, player, null);
 
-		if ( !playerContents() ) { return; }
+		if ( !playerContents() & player.getLevel() == 0 ) { return; }
 
 		location.getBlock().setType(Material.CHEST);
 

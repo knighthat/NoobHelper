@@ -7,6 +7,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.knighthat.plugin.Commands.Manager;
+import me.knighthat.plugin.Commands.TabCompletor;
 import me.knighthat.plugin.Events.Listener;
 import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.Files.DeathChests;
@@ -27,6 +28,7 @@ public class NoobHelper extends JavaPlugin
 	public void onEnable() {
 
 		getCommand("noobhelper").setExecutor(new Manager(this));
+		getCommand("noobhelper").setTabCompleter(new TabCompletor(this));
 
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
 
