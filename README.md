@@ -141,7 +141,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 
 ## `/noobhelper deletechest [id]`
 - Wipes a death chest from existent
-- PermissionL *_noobhelper.command.delete_chest*
+- Permission: **_noobhelper.command.delete_chest**
 
 ---
 
