@@ -61,7 +61,7 @@ public class GetLostItems implements InventoryHolder
 			return;
 		}
 
-		new ContainerAbstract() {
+		player.openInventory(new ContainerAbstract() {
 
 			@Override
 			public String getTitle() {
@@ -99,7 +99,7 @@ public class GetLostItems implements InventoryHolder
 
 				getInventory().setItem(49, exp);
 			}
-		}.openInventory(player);
+		}.getInventory());
 	}
 
 	public GetLostItems(NoobHelper plugin, Player player) {

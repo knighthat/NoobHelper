@@ -6,6 +6,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import me.knighthat.plugin.Commands.Guis;
 import me.knighthat.plugin.Commands.Manager;
 import me.knighthat.plugin.Commands.TabCompletor;
 import me.knighthat.plugin.Events.Listener;
@@ -29,12 +30,29 @@ public class NoobHelper extends JavaPlugin
 
 		getCommand("noobhelper").setExecutor(new Manager(this));
 		getCommand("noobhelper").setTabCompleter(new TabCompletor(this));
+		registerCommands();
 
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
 
 		checkFiles();
 
 		new UpdateChecker(this);
+	}
+
+	void registerCommands() {
+
+		getCommand("workbench").setExecutor(new Guis(this));
+
+		if ( !checkVersion(16.2) )
+			return;
+
+		getCommand("anvil").setExecutor(new Guis(this));
+		getCommand("cartography").setExecutor(new Guis(this));
+		getCommand("loom").setExecutor(new Guis(this));
+		getCommand("grindstone").setExecutor(new Guis(this));
+		getCommand("stonecutter").setExecutor(new Guis(this));
+		getCommand("smithingtable").setExecutor(new Guis(this));
+
 	}
 
 	void checkFiles() {
@@ -55,7 +73,7 @@ public class NoobHelper extends JavaPlugin
 
 		String version = getServer().getVersion();
 		int pointer = version.lastIndexOf(".");
-		version = version.substring(pointer - 2, pointer + 1);
+		version = version.substring(pointer - 2, version.indexOf(")", pointer));
 
 		return Double.parseDouble(version) >= versionToCompare;
 	}

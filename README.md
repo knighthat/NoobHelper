@@ -121,6 +121,14 @@ Lost items can be tracked by using `/noobhelper lostitems` command
   <img src="https://i.ibb.co/WPwSmL7/Death-Chest.gif" alt="Death-Chest" border="0">
 </details>
 
+<h2>
+  <p align="center">
+    <img src="https://i.ibb.co/sK0yrb3/GUI-Shortcuts.png" alt="GUI-Shortcuts" border="0">
+  </p>
+</h2>
+Ever thought why you had to keep bringing those tables to work with? Well, there's no longer needed when you have GUI Shortcuts. With one command and you'll get what you need.
+
+
 ---
 
 
@@ -142,6 +150,27 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 ## `/noobhelper deletechest [id]`
 - Wipes a death chest from existent
 - Permission: **_noobhelper.command.delete_chest**
+
+## `/workbench`
+- Permission: **_noobehelper.workbench_**
+
+## `/anvil`
+- Permission: **_noobhelper.anvil_**
+
+## `/cartography`
+- Permission: **_noobhelper.cartography_**
+
+## `/loom`
+- Permission: **_noobhelper.loom_**
+
+## `/smithingtable`
+- Permission: **_noobhelper.smithingtable_**
+
+## `/grindstone`
+- Permission: **_noobhelper.grindstone_**
+
+## `/stonecutter`
+- Permission: **_noobhelper.stonecutter_**
 
 ---
 
@@ -185,6 +214,28 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 ## `noobhelper.death_chest`
 - Required to create Death Chest on Death.
 
+## `noobhelper.workbench`
+- Required to use command **_/workbench_**
+
+## `noobhelper.anvil`
+- Required to use command **_/anvil_**
+
+## `noobhelper.cartography`
+- Required to use command **_/cartography_**
+
+## `noobhelper.loom`
+- Required to use command **_/loom_**
+
+## `noobhelper.grindstone`
+- Required to use command **_/grindstone_**
+
+## `noobhelper.smithingtable`
+- Required to use command **_/smithingtable_**
+
+## `noobhelper.stonecutter`
+- Required to use command **_/stonecutter_**
+
+
 ---
 
 
@@ -195,7 +246,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.8
+version: 0.9
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true
@@ -208,7 +259,7 @@ equipment_replacement: true
 
 death_chest:
   enabled: true
-  death_message: "&cLast death locaton &4&c&lX:%x% Y:%z% Z:%z%&r&c."
+  death_message: "&cLast death locaton &4&c&lX:%x% Y:%y% Z:%z%&r&c."
   not_your_chest: "&eThis death chest &4&lDOES NOT &ebelong to you!"
   retrieved: "&a&lCongrats! &rYou just successfully retrieved all your lost items."
   retrieval_sound: true
