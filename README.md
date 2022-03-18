@@ -123,7 +123,7 @@ Lost items can be tracked by using `/noobhelper lostitems` command
 
 <h2>
   <p align="center">
-    <img src="https://i.ibb.co/sK0yrb3/GUI-Shortcuts.png" alt="GUI-Shortcuts" border="0">
+    <img src="https://i.ibb.co/CMtgRHd/GUI-Shortcuts.png" alt="GUI-Shortcuts" border="0">
   </p>
 </h2>
 Ever thought why you had to keep bringing those tables to work with? Well, there's no longer needed when you have GUI Shortcuts. With one command and you'll get what you need.
@@ -214,25 +214,25 @@ Ever thought why you had to keep bringing those tables to work with? Well, there
 ## `noobhelper.death_chest`
 - Required to create Death Chest on Death.
 
-## `noobhelper.workbench`
+## `noobhelper.command.workbench`
 - Required to use command **_/workbench_**
 
-## `noobhelper.anvil`
+## `noobhelper.command.anvil`
 - Required to use command **_/anvil_**
 
-## `noobhelper.cartography`
+## `noobhelper.command.cartography`
 - Required to use command **_/cartography_**
 
-## `noobhelper.loom`
+## `noobhelper.command.loom`
 - Required to use command **_/loom_**
 
-## `noobhelper.grindstone`
+## `noobhelper.command.grindstone`
 - Required to use command **_/grindstone_**
 
-## `noobhelper.smithingtable`
+## `noobhelper.command.smithingtable`
 - Required to use command **_/smithingtable_**
 
-## `noobhelper.stonecutter`
+## `noobhelper.command.stonecutter`
 - Required to use command **_/stonecutter_**
 
 
@@ -246,7 +246,7 @@ Ever thought why you had to keep bringing those tables to work with? Well, there
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.9
+version: 0.9.1
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true
@@ -254,7 +254,36 @@ update_checker: true
 prefix: "&7[&aNoobHelper&7]"
 
 
-equipment_replacement: true
+equipment_replacement:
+  enabled: true
+  # Turn specific type of equipments on and off.
+  # Turn one off means that type won't be replaced by plugin.
+  types:
+    weapon: true
+    tool: true
+    armor: true
+    shield: true
+  # noobhelper.equipment_replacement.[weapon/tool/armor/shield]
+  required_permission: true
+
+
+# Aliases for commands
+# Reload is recommended for commands to function properly.
+gui_shortcuts:
+  anvil: 
+    - caide
+  workbench:
+    - banchetao
+  cartography:
+    - banve
+  loom: 
+    - maydet
+  grindstone:
+    - maymai
+  stonecutter:
+    - maycat
+  smithingtable:
+    - banren
 
 
 death_chest:
@@ -310,7 +339,7 @@ break_assistant:
   # How long in ticks it has to wait
   # before breaking the next block.
   # 20 ticks / 1 second.
-  delay: 1
+  delay: 1 
   # Only work if add_delay is turned on.
   # Require version 1.16.4 and above
   add_effect: true
@@ -330,6 +359,7 @@ fast_leaf_decay:
 trash_bin:
   enabled: true
   title: "&4&lWARNING: &eAll items will be deleted!!!"
+  slots: 27
   message: "You've created a trash bin!"
   delete_message: "&cAll item(s) deleted!"
   lines:
@@ -337,9 +367,10 @@ trash_bin:
     - ""
     - ""
     - "&aRight click to use"
+  # Materials can be found at https://papermc.io/javadocs/paper/1.14/org/bukkit/Material.html
   confirmation_menu:
     title: "&cAll items below will be removed"
-    represent_item: CHEST
+    represent_material: CHEST
     represent_name: "&bPlease confirm all items below!"
     border_material: BLACK_STAINED_GLASS_PANE
     accept_material: GREEN_STAINED_GLASS_PANE

@@ -29,7 +29,7 @@ public class NoobHelper extends JavaPlugin
 	public void onEnable() {
 
 		getCommand("noobhelper").setExecutor(new Manager(this));
-		getCommand("noobhelper").setTabCompleter(new TabCompletor(this));
+		getCommand("noobhelper").setTabCompleter(new TabCompletor());
 		registerCommands();
 
 		getServer().getPluginManager().registerEvents(new Listener(this), this);
@@ -39,20 +39,18 @@ public class NoobHelper extends JavaPlugin
 		new UpdateChecker(this);
 	}
 
-	void registerCommands() {
-
-		getCommand("workbench").setExecutor(new Guis(this));
+	public void registerCommands() {
 
 		if ( !checkVersion(16.2) )
 			return;
 
-		getCommand("anvil").setExecutor(new Guis(this));
-		getCommand("cartography").setExecutor(new Guis(this));
-		getCommand("loom").setExecutor(new Guis(this));
-		getCommand("grindstone").setExecutor(new Guis(this));
-		getCommand("stonecutter").setExecutor(new Guis(this));
-		getCommand("smithingtable").setExecutor(new Guis(this));
+		config.getSections("gui_shortcuts", false).forEach(cmd -> {
 
+			Guis shortcut = new Guis(config, cmd, config.get().getStringList("gui_shortcuts." + cmd));
+
+			getServer().getCommandMap().register(cmd, "noobhelper", shortcut);
+
+		});
 	}
 
 	void checkFiles() {
@@ -72,8 +70,11 @@ public class NoobHelper extends JavaPlugin
 	public final boolean checkVersion( double versionToCompare ) {
 
 		String version = getServer().getVersion();
-		int pointer = version.lastIndexOf(".");
-		version = version.substring(pointer - 2, version.indexOf(")", pointer));
+		int pointer = version.lastIndexOf("(MC: ") + 5;
+
+		version = version.substring(pointer, version.indexOf(")", pointer));
+		if ( version.startsWith("1.") )
+			version = version.replace("1.", "");
 
 		return Double.parseDouble(version) >= versionToCompare;
 	}

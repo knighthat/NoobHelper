@@ -1,6 +1,9 @@
 package me.knighthat.plugin.Commands;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.command.Command;
@@ -9,47 +12,47 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.plugin.utils.PermissionChecker;
 
-public class Manager implements CommandExecutor
+public class Manager implements CommandExecutor, PermissionChecker
 {
 
 	NoobHelper plugin;
-	Config config;
-	DeathChests deathChests;
 
-	public static Map<CommandSender, Long> countdown = new HashMap<>();
-	public static Map<CommandSender, String> pathToDelete = new HashMap<>();
+	public static List<CommandAbstact> defCmds = new ArrayList<>();
+	public static Map<CommandSender, List<Object>> confirmCountdown = new HashMap<>();
 
 	public Manager(NoobHelper plugin) {
+
 		this.plugin = plugin;
-		this.config = plugin.config;
-		this.deathChests = plugin.deathChests;
+
+		defCmds.add(new LostItems(plugin));
+		defCmds.add(new DeleteChest(plugin));
+		defCmds.add(new Reload(plugin));
 	}
 
 	@Override
-	public boolean onCommand( CommandSender sender, Command command, String cmd, String[] args ) {
+	public boolean onCommand( CommandSender sender, Command command, String label, String[] args ) {
 
-		boolean isPlayer = sender instanceof Player;
+		Iterator<CommandAbstact> cmds = defCmds.iterator();
+		while ( cmds.hasNext() ) {
 
-		switch ( args[0] ) {
-			case "reload" :
-				new Reload(plugin, sender, isPlayer);
-			break;
-			case "lostitems" :
-				if ( !isPlayer )
-					return true;
-				if ( args.length < 2 ) {
-					new GetLostItems(plugin, (Player) sender);
-				} else
-					new GetLostItems(plugin, (Player) sender, args[1]);
-			break;
-			case "deletechest" :
-				new DeleteChest(plugin, sender, args);
+			CommandAbstact cmd = cmds.next();
+
+			if ( !cmd.getName().equalsIgnoreCase(args[0]) )
+				continue;
+
+			if ( cmd.requiredPlayer() ) {
+
+				if ( !(sender instanceof Player) )
+					break;
+
+				if ( !checkPermission((Player) sender, plugin.config, "command." + cmd.getPermission(), true) )
+					break;
+			}
+			cmd.onCommand(sender, args);
 			break;
 		}
-
 		return true;
 	}
 

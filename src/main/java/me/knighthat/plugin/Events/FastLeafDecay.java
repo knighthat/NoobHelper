@@ -13,18 +13,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
 import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.utils.GetRelatives;
 
-public class FastLeafDecay extends Storage
+public class FastLeafDecay extends GetRelatives
 {
 
 	Config config;
 
 	public FastLeafDecay(NoobHelper plugin, LeavesDecayEvent e) {
 
+		super(e.getBlock());
 		this.config = plugin.config;
-		super.starter = e.getBlock();
-		super.blocks.add(starter);
-		List<Block> leaves = super.getAffiliation(new ArrayList<>());
+		List<Block> leaves = getSurrounding(new ArrayList<>());
 
 		new BukkitRunnable() {
 
@@ -65,7 +65,4 @@ public class FastLeafDecay extends Storage
 		loc.getWorld().playSound(loc, Sound.BLOCK_GRASS_BREAK, 29, 1);
 
 	}
-
-	@Override
-	public int getMaxBlock() { return 999999999; }
 }

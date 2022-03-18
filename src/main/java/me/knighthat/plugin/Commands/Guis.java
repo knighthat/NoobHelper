@@ -1,26 +1,27 @@
 package me.knighthat.plugin.Commands;
 
+import java.util.List;
+
 import org.bukkit.Location;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.Files.Config;
 import me.knighthat.plugin.utils.PermissionChecker;
 
-public class Guis implements CommandExecutor, PermissionChecker
+public class Guis extends Command implements PermissionChecker
 {
 
-	NoobHelper plugin;
+	Config config;
 
-	public Guis(NoobHelper plugin) {
-
-		this.plugin = plugin;
+	public Guis(Config config, String name, List<String> aliases) {
+		super(name, null, null, aliases);
+		this.config = config;
 	}
 
 	@Override
-	public boolean onCommand( CommandSender sender, Command command, String label, String[] args ) {
+	public boolean execute( CommandSender sender, String commandLabel, String[] args ) {
 
 		if ( !(sender instanceof Player) )
 			return true;
@@ -28,10 +29,10 @@ public class Guis implements CommandExecutor, PermissionChecker
 		Player player = (Player) sender;
 		Location loc = player.getLocation();
 
-		if ( !checkPermission(player, plugin.config, command.getName(), true) )
+		if ( !checkPermission(player, config, "command." + getName(), true) )
 			return true;
 
-		switch ( command.getName() ) {
+		switch ( getName() ) {
 
 			case "workbench" :
 				player.openWorkbench(loc, true);
@@ -60,9 +61,10 @@ public class Guis implements CommandExecutor, PermissionChecker
 			case "stonecutter" :
 				player.openStonecutter(loc, true);
 			break;
+			default :
+				return true;
 		}
 
 		return true;
 	}
-
 }

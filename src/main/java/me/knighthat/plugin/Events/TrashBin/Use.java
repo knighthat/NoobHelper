@@ -1,26 +1,21 @@
 package me.knighthat.plugin.Events.TrashBin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.Inventory;
 
 import me.knighthat.plugin.NoobHelper;
+import me.knighthat.plugin.Menus.TrashBinMenu;
 
-public class Use extends Storage implements Listener
+public class Use extends TrashBinStorage
 {
 
 	public Use(NoobHelper plugin, PlayerInteractEvent e) {
 
-		register(plugin, e.getPlayer(), e.getClickedBlock());
+		super(plugin, e.getPlayer(), e.getClickedBlock());
 
-		if ( !trashBins.get().contains(getID(location)) ) { return; }
+		if ( !plugin.trashBins.get().contains(getId()) ) { return; }
 
-		if ( !checkPermission("use") ) { return; }
+		if ( !checkPermission(player, plugin.config, "use", true) ) { return; }
 
-		String inventoryName = config.getString(path.concat("title"));
-		Inventory inventory = Bukkit.createInventory(player, InventoryType.CHEST, inventoryName);
-		player.openInventory(inventory);
+		new TrashBinMenu(plugin, player, PATH).open();
 	}
 }

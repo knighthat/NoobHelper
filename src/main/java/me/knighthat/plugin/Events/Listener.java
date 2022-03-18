@@ -1,13 +1,12 @@
 package me.knighthat.plugin.Events;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
@@ -18,41 +17,32 @@ import org.bukkit.block.data.type.Sign;
 import org.bukkit.block.data.type.WallSign;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.block.SignChangeEvent;
+import org.bukkit.event.entity.EntityResurrectEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemBreakEvent;
 import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Commands.ContainerAbstract;
-import me.knighthat.plugin.Events.BreakAssistant.BreakAssistant;
-import me.knighthat.plugin.Events.TrashBin.ConfirmMenu;
-import me.knighthat.plugin.utils.MenuBase;
 import me.knighthat.plugin.utils.PermissionChecker;
+import me.knighthat.plugin.utils.TextModification;
 
-public class Listener implements org.bukkit.event.Listener, PermissionChecker
+public class Listener implements org.bukkit.event.Listener, PermissionChecker, TextModification
 {
 
 	NoobHelper plugin;
 
 	private List<Location> decayLocation = new ArrayList<>();
 
-	public static Map<Player, List<ItemStack>> itemsForReturn = new HashMap<>();
-
 	public Listener(NoobHelper plugin) { this.plugin = plugin; }
 
-	public Boolean isEnabled( String path ) { return plugin.config.get().getBoolean(path); }
+	public boolean isEnabled( String path ) { return plugin.config.get().getBoolean(path); }
 
 	boolean checkPerm( Player player, String permission ) { return checkPermission(player, plugin.config, permission); }
 
@@ -61,8 +51,8 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 
 		Player player = event.getPlayer();
 
-		if ( isEnabled("equipment_replacement") & checkPerm(player, ".eqiuipment_replacement") )
-			new EquipmentReplacement(event.getPlayer(), event.getBrokenItem());
+		if ( isEnabled("equipment_replacement.enabled") )
+			new EquipmentReplacement(plugin.config, player, event.getBrokenItem());
 	}
 
 	@EventHandler
@@ -71,13 +61,14 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 		if ( !EquipmentSlot.HAND.equals(event.getHand()) | !Action.RIGHT_CLICK_BLOCK.equals(event.getAction()) )
 			return;
 
+		Player player = event.getPlayer();
 		Block block = event.getClickedBlock();
 		BlockData blockData = block.getBlockData();
 		BlockState blockState = block.getState();
 
 		if ( isEnabled("smart_harvest.enabled") & blockData instanceof Ageable )
-			if ( checkPerm(event.getPlayer(), "smart_harvest") ) {
-				new SmartHarvesting(block, event.getPlayer(), plugin.config);
+			if ( checkPerm(player, "smart_harvest") ) {
+				new SmartHarvesting(block, player, plugin.config);
 				return;
 			}
 
@@ -86,10 +77,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 			return;
 		}
 
-		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) {
-			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, event, null);
-			return;
-		}
+		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) { new me.knighthat.plugin.Events.DeathChest.ReturnItems(plugin, player, block.getLocation(), event); }
 	}
 
 	@EventHandler
@@ -108,7 +96,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 		}
 
 		if ( event.getBlock().getState() instanceof Chest ) {
-			new me.knighthat.plugin.Events.DeathChest.Retrieval(plugin, null, event);
+			new me.knighthat.plugin.Events.DeathChest.ReturnItems(plugin, event.getPlayer(), event.getBlock().getLocation(), event);
 			return;
 		}
 
@@ -163,90 +151,20 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker
 		if ( !isEnabled("death_chest.enabled") | !checkPerm(player, "death_chest") )
 			return;
 
-		new me.knighthat.plugin.Events.DeathChest.Creation(plugin, player);
+		new me.knighthat.plugin.Events.DeathChest.Create(plugin, player);
 
 		ListIterator<ItemStack> contents = event.getDrops().listIterator();
 		while ( contents.hasNext() )
 			if ( contents.next() != null ) { contents.remove(); }
 	}
 
-	@EventHandler(priority = EventPriority.HIGH)
-	public void onInventoryInteract( InventoryClickEvent event ) {
-
-		InventoryHolder holder = event.getInventory().getHolder();
-
-		if ( holder instanceof ContainerAbstract ) { event.setCancelled(true); }
-
-		if ( holder instanceof MenuBase )
-			if ( event.getView().getTitle().equals(plugin.config.getString("trash_bin.confirmation_menu.title")) ) {
-
-				event.setCancelled(true);
-
-				Player player = (Player) event.getWhoClicked();
-
-				ItemMeta iMeta = event.getCurrentItem().getItemMeta();
-
-				switch ( iMeta.getPersistentDataContainer().get(plugin.NamespacedKey, plugin.dataType) ) {
-					case "accept" :
-
-						itemsForReturn.remove(player);
-						player.sendMessage(plugin.config.getString("trash_bin.delete_message", true, null, null));
-
-					case "decline" :
-
-						if ( itemsForReturn.containsKey(player) )
-							for ( ItemStack item : itemsForReturn.get(player) )
-								player.getInventory().addItem(item);
-
-						itemsForReturn.remove(player);
-
-						player.closeInventory();
-					break;
-
-					default :
-					break;
-				}
-			}
-	}
-
 	@EventHandler
-	public void onInventoryClose( InventoryCloseEvent event ) {
+	public void onTotemUse( EntityResurrectEvent event ) {
 
-		String title = event.getView().getTitle();
-
-		if ( title.equals(plugin.config.getString("trash_bin.confirmation_menu.title")) ) {
-
-			Player player = (Player) event.getPlayer();
-
-			if ( itemsForReturn.containsKey(player) )
-				for ( ItemStack item : itemsForReturn.get(player) )
-					player.getInventory().addItem(item);
-
-			itemsForReturn.remove(player);
-		}
-
-		if ( title.equals(plugin.config.getString("trash_bin.title")) ) {
-
-			List<ItemStack> contents = new ArrayList<>();
-			for ( ItemStack item : event.getInventory().getContents() )
-				if ( item != null )
-					contents.add(item);
-
-			if ( !contents.isEmpty() ) {
-
-				Player player = (Player) event.getPlayer();
-
-				ConfirmMenu menu = new ConfirmMenu(plugin, player, contents);
-
-				new BukkitRunnable() {
-
-					@Override
-					public void run() {
-						player.openInventory(menu.getInventory());
-						player.updateInventory();
-					}
-				}.runTaskLater(plugin, 1L);
-			}
+		if ( event.getEntity() instanceof Player ) {
+			Player player = (Player) event.getEntity();
+			if ( isEnabled("equipment_replacement.enabled") )
+				new EquipmentReplacement(plugin.config, player, new ItemStack(Material.TOTEM_OF_UNDYING));
 		}
 	}
 }

@@ -4,21 +4,20 @@ import org.bukkit.event.block.BlockBreakEvent;
 
 import me.knighthat.plugin.NoobHelper;
 
-public class Break extends Storage
+public class Break extends TrashBinStorage
 {
 
 	public Break(NoobHelper plugin, BlockBreakEvent e) {
 
-		register(plugin, e.getPlayer(), e.getBlock());
+		super(plugin, e.getPlayer(), e.getBlock());
 
-		final String id = getID(e.getBlock().getLocation());
+		if ( trashBins.get().contains(getId()) )
+			if ( checkPermission(player, plugin.config, "trashbin.remove", true) ) {
 
-		if ( trashBins.get().contains(id) )
-			if ( checkPermission("remove") ) {
-				trashBins.get().set(id, null);
+				trashBins.get().set(getId(), null);
 				trashBins.save();
+
 			} else
 				e.setCancelled(true);
 	}
-
 }

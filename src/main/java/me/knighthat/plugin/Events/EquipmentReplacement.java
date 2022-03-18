@@ -7,22 +7,37 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-public class EquipmentReplacement
+import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.utils.EquipmentType;
+import me.knighthat.plugin.utils.PermissionChecker;
+
+public class EquipmentReplacement implements PermissionChecker
 {
+
+	Config config;
 
 	PlayerInventory pInv;
 	int originalSlot;
 
-	public EquipmentReplacement(Player player, ItemStack brokenItem) {
+	public EquipmentReplacement(Config config, Player player, ItemStack brokenItem) {
+
+		this.config = config;
 
 		pInv = player.getInventory();
 		Map<Integer, ItemStack> contents = getContents(brokenItem);
 
-		for ( int slot : contents.keySet() )
-			if ( pInv.getItem(slot).getType().equals(brokenItem.getType()) ) {
-				swapItems(player, slot);
-				break;
-			}
+		String equipmentType = EquipmentType.match(brokenItem).toString().toLowerCase();
+		boolean isEnabled = isEnabled("types." + equipmentType);
+
+		if ( isEnabled("required_permission") & !checkPermission(player, config, "noobhelper.equipment_replacement." + equipmentType) )
+			return;
+
+		if ( isEnabled )
+			for ( int slot : contents.keySet() )
+				if ( pInv.getItem(slot).getType().equals(brokenItem.getType()) ) {
+					swapItems(player, slot);
+					break;
+				}
 	}
 
 	Map<Integer, ItemStack> getContents( ItemStack brokenItem ) {
@@ -44,4 +59,6 @@ public class EquipmentReplacement
 		pInv.clear(slot);
 		player.updateInventory();
 	}
+
+	boolean isEnabled( String path ) { return config.get().getBoolean("equipment_replacement." + path); }
 }
