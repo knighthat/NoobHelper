@@ -14,6 +14,7 @@ public class ShowLostItems extends MenuAbstract
 
 	public ShowLostItems(NoobHelper plugin, Player viewer, String path) {
 		super(plugin, viewer);
+		viewer.sendMessage(path);
 		this.path = path;
 	}
 

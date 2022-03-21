@@ -71,10 +71,12 @@ public abstract class MenuAbstract implements InventoryHolder, Listener
 		if ( event.getCurrentItem() == null | event.getClickedInventory() == null )
 			return;
 
-		if ( !(event.getClickedInventory().getHolder() instanceof MenuAbstract) )
+		Inventory clickedInv = event.getView().getTopInventory();
+
+		if ( !(clickedInv.getHolder() instanceof MenuAbstract) )
 			return;
 
-		if ( event.getClickedInventory().equals(this.inventory) )
+		if ( clickedInv.equals(this.inventory) )
 			event.setCancelled(onClick(event));
 	}
 

@@ -44,7 +44,7 @@ public class Create implements PathGenerator
 
 		if ( contents.keySet().isEmpty() & getPlayerExp(player) == 0 ) { return; }
 
-		player.getLocation().getBlock().setType(Material.AIR);
+		player.getLocation().getBlock().setType(Material.CHEST);
 
 		registerContents();
 
@@ -56,7 +56,7 @@ public class Create implements PathGenerator
 	@Override
 	public Player getPlayer() { return this.player; }
 
-	void set( String path, Object value ) { plugin.deathChests.get().set(getFullPath(location), value); }
+	void set( String path, Object value ) { plugin.deathChests.get().set(getFullPath(location) + "." + path, value); }
 
 	void registerContents() {
 

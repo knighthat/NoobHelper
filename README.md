@@ -246,7 +246,7 @@ Ever thought why you had to keep bringing those tables to work with? Well, there
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.9.1
+version: 0.9.2
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true
@@ -282,7 +282,7 @@ gui_shortcuts:
     - maymai
   stonecutter:
     - maycat
-  smithingtable:
+  smithing:
     - banren
 
 
@@ -339,7 +339,7 @@ break_assistant:
   # How long in ticks it has to wait
   # before breaking the next block.
   # 20 ticks / 1 second.
-  delay: 1 
+  delay: 1
   # Only work if add_delay is turned on.
   # Require version 1.16.4 and above
   add_effect: true

@@ -2,6 +2,7 @@ package me.knighthat.plugin.Events.DeathChest;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -39,6 +40,9 @@ public class ReturnItems implements PathGenerator
 			returnItems(bLocation, deathChets.get().getConfigurationSection(getFullPath(bLocation)));
 
 			bLocation.getBlock().setType(Material.AIR);
+
+			if ( plugin.config.get().getBoolean("death_chest.retrieval_sound") )
+				bLocation.getWorld().playSound(bLocation, Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
 
 			deathChets.get().set(getFullPath(bLocation), null);
 			deathChets.save();
