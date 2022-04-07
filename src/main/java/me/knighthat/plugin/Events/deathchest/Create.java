@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Events.DeathChest;
+package me.knighthat.plugin.Events.deathchest;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 import me.knighthat.plugin.utils.PathGenerator;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;

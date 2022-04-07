@@ -5,9 +5,9 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.DeathChests;
-import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.plugin.files.Config;
+import me.knighthat.plugin.files.DeathChests;
+import me.knighthat.plugin.files.TrashBins;
 
 public abstract class CommandAbstact
 {

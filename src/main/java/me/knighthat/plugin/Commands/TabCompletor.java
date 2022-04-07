@@ -3,6 +3,7 @@ package me.knighthat.plugin.Commands;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -17,7 +18,7 @@ public class TabCompletor implements TabCompleter
 
 		switch ( args.length ) {
 			case 1 :
-				results = Manager.defCmds.stream().map(CommandAbstact::getName).toList();
+				results = Manager.defCmds.stream().map(CommandAbstact::getName).collect(Collectors.toList());
 			break;
 
 			case 2 :
@@ -30,7 +31,7 @@ public class TabCompletor implements TabCompleter
 					}
 				}
 		}
-		return results.stream().filter($ -> $.startsWith(args[args.length - 1])).toList();
+		return results.stream().filter($ -> $.startsWith(args[args.length - 1])).collect(Collectors.toList());
 	}
 
 }

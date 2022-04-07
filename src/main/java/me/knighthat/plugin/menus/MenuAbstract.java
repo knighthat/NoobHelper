@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Menus;
+package me.knighthat.plugin.menus;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -10,9 +10,9 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.DeathChests;
-import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.plugin.files.Config;
+import me.knighthat.plugin.files.DeathChests;
+import me.knighthat.plugin.files.TrashBins;
 
 public abstract class MenuAbstract implements InventoryHolder, Listener
 {

@@ -2,11 +2,20 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.knighthat.NoobHelper</groupId>
   <artifactId>NoobHelperPlugin</artifactId>
-  <version>0.9.2</version>
+  <version>0.9.3</version>
   <name>Noob Helper</name>
   <description>Integrated many helpful features to make game easier to play	</description>
 
+  <distributionManagement>
+    <repository>
+      <id>${project.name}</id>
+      <name>plugins</name>
+      <url>file:C:\Users\tanmi\.m2\repository\</url>
+    </repository>
+  </distributionManagement>
+
   <build>
+    <defaultGoal>deploy</defaultGoal>
     <plugins>
       <plugin>    
         <artifactId>maven-compiler-plugin</artifactId>

@@ -73,11 +73,11 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker, T
 			}
 
 		if ( isEnabled("trash_bin.enabled") & (blockData instanceof Sign | blockData instanceof WallSign) ) {
-			new me.knighthat.plugin.Events.TrashBin.Use(plugin, event);
+			new me.knighthat.plugin.Events.trashbin.Use(plugin, event);
 			return;
 		}
 
-		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) { new me.knighthat.plugin.Events.DeathChest.ReturnItems(plugin, player, block.getLocation(), event); }
+		if ( isEnabled("death_chest.enabled") & blockState instanceof Chest ) { new me.knighthat.plugin.Events.deathchest.ReturnItems(plugin, player, block.getLocation(), event); }
 	}
 
 	@EventHandler
@@ -91,12 +91,12 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker, T
 		}
 
 		if ( blockData instanceof Sign | blockData instanceof WallSign ) {
-			new me.knighthat.plugin.Events.TrashBin.Break(plugin, event);
+			new me.knighthat.plugin.Events.trashbin.Break(plugin, event);
 			return;
 		}
 
 		if ( event.getBlock().getState() instanceof Chest ) {
-			new me.knighthat.plugin.Events.DeathChest.ReturnItems(plugin, event.getPlayer(), event.getBlock().getLocation(), event);
+			new me.knighthat.plugin.Events.deathchest.ReturnItems(plugin, event.getPlayer(), event.getBlock().getLocation(), event);
 			return;
 		}
 
@@ -137,7 +137,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker, T
 	public void playerPlaceTrashBin( SignChangeEvent event ) {
 
 		if ( isEnabled("trash_bin.enabled") )
-			new me.knighthat.plugin.Events.TrashBin.Place(plugin, event);
+			new me.knighthat.plugin.Events.trashbin.Place(plugin, event);
 
 		for ( int line = 0 ; line < event.getLines().length ; line++ )
 			event.setLine(line, addColor(event.getLine(line)));
@@ -151,7 +151,7 @@ public class Listener implements org.bukkit.event.Listener, PermissionChecker, T
 		if ( !isEnabled("death_chest.enabled") | !checkPerm(player, "death_chest") )
 			return;
 
-		new me.knighthat.plugin.Events.DeathChest.Create(plugin, player);
+		new me.knighthat.plugin.Events.deathchest.Create(plugin, player);
 
 		ListIterator<ItemStack> contents = event.getDrops().listIterator();
 		while ( contents.hasNext() )

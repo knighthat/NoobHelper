@@ -246,7 +246,7 @@ Ever thought why you had to keep bringing those tables to work with? Well, there
 <details><summary> SEE FILE </summary>
 
 ```YML
-version: 0.9.2
+version: 0.9.3
 # If true, check for update every 6 hours
 # If false, only check once at startup
 update_checker: true

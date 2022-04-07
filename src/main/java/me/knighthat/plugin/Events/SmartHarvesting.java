@@ -8,7 +8,7 @@ import org.bukkit.block.data.Ageable;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 
 public class SmartHarvesting
 {

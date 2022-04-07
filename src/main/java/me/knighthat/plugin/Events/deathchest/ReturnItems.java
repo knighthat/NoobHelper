@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Events.DeathChest;
+package me.knighthat.plugin.Events.deathchest;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.plugin.files.DeathChests;
 import me.knighthat.plugin.utils.PathGenerator;
 
 public class ReturnItems implements PathGenerator

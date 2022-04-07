@@ -12,7 +12,7 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 import me.knighthat.plugin.utils.GetRelatives;
 
 public class FastLeafDecay extends GetRelatives

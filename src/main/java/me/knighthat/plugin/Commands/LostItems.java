@@ -12,7 +12,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Menus.ShowLostItems;
+import me.knighthat.plugin.menus.ShowLostItems;
 import me.knighthat.plugin.utils.PathGenerator;
 import me.knighthat.plugin.utils.TextModification;
 

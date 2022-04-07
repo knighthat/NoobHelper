@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Files;
+package me.knighthat.plugin.files;
 
 import java.io.File;
 

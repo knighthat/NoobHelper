@@ -7,7 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 import me.knighthat.plugin.utils.PermissionChecker;
 
 public class Guis extends Command implements PermissionChecker

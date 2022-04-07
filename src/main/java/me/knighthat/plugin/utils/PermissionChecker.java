@@ -2,7 +2,7 @@ package me.knighthat.plugin.utils;
 
 import org.bukkit.entity.Player;
 
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 
 public interface PermissionChecker
 {

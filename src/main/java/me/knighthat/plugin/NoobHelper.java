@@ -10,9 +10,9 @@ import me.knighthat.plugin.Commands.Guis;
 import me.knighthat.plugin.Commands.Manager;
 import me.knighthat.plugin.Commands.TabCompletor;
 import me.knighthat.plugin.Events.Listener;
-import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.DeathChests;
-import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.plugin.files.Config;
+import me.knighthat.plugin.files.DeathChests;
+import me.knighthat.plugin.files.TrashBins;
 import me.knighthat.plugin.utils.UpdateChecker;
 
 public class NoobHelper extends JavaPlugin

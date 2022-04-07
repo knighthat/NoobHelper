@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import me.knighthat.plugin.Files.Config;
+import me.knighthat.plugin.files.Config;
 import me.knighthat.plugin.utils.EquipmentType;
 import me.knighthat.plugin.utils.PermissionChecker;
 

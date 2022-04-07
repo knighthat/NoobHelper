@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Menus;
+package me.knighthat.plugin.menus;
 
 import java.util.ArrayList;
 import java.util.List;

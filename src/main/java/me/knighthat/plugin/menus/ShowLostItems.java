@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Menus;
+package me.knighthat.plugin.menus;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

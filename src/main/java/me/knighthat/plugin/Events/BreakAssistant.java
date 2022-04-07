@@ -18,8 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.Config;
-import me.knighthat.plugin.Files.DeathChests;
+import me.knighthat.plugin.files.Config;
+import me.knighthat.plugin.files.DeathChests;
 import me.knighthat.plugin.utils.GetRelatives;
 import me.knighthat.plugin.utils.PermissionChecker;
 

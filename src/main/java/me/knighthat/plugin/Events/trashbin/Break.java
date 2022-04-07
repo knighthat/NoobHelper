@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Events.TrashBin;
+package me.knighthat.plugin.Events.trashbin;
 
 import org.bukkit.event.block.BlockBreakEvent;
 

@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Events.TrashBin;
+package me.knighthat.plugin.Events.trashbin;
 
 import java.util.StringJoiner;
 
@@ -7,7 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Files.TrashBins;
+import me.knighthat.plugin.files.TrashBins;
 import me.knighthat.plugin.utils.PathGenerator;
 import me.knighthat.plugin.utils.PermissionChecker;
 

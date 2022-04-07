@@ -1,4 +1,4 @@
-package me.knighthat.plugin.Menus;
+package me.knighthat.plugin.menus;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryCloseEvent;

@@ -1,9 +1,9 @@
-package me.knighthat.plugin.Events.TrashBin;
+package me.knighthat.plugin.Events.trashbin;
 
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.knighthat.plugin.NoobHelper;
-import me.knighthat.plugin.Menus.TrashBinMenu;
+import me.knighthat.plugin.menus.TrashBinMenu;
 
 public class Use extends TrashBinStorage
 {
